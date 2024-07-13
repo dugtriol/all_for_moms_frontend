@@ -1,7 +1,8 @@
-import 'package:all_for_moms_frontend/utils/provider.dart';
-import 'package:all_for_moms_frontend/widgets/auth/auth_model.dart';
+import 'package:all_for_moms_frontend/utils/provider_old.dart';
+import 'package:all_for_moms_frontend/widgets/auth/sign_in_model.dart';
 import 'package:all_for_moms_frontend/widgets/auth/sign_up_widget.dart';
 import 'package:all_for_moms_frontend/widgets/main_screen/main_screen.dart';
+import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.read<AuthModel>(context);
+    final model = NotifierProvider.read<SignInModel>(context);
     return Scaffold(
       body: Center(
         child: Column(
@@ -34,17 +35,13 @@ class SignInScreen extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             const _AuthButtonWidget(),
-            TextButton(
-              onPressed: () {},
-              child: const Text("Забыли пароль?"),
-            ),
+            // TextButton(
+            //   onPressed: () {},
+            //   child: const Text("Забыли пароль?"),
+            // ),
             TextButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const SignUpWidget(),
-                    ));
+                Navigator.pushNamed(context, MainNavigationRoutes.signUp);
               },
               child: const Text("Зарегистрироваться"),
             ),
@@ -62,7 +59,7 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<AuthModel>(context);
+    final model = NotifierProvider.watch<SignInModel>(context);
     final child = model?.isAuthProgress == true
         ? const SizedBox(
             child: CircularProgressIndicator(),
@@ -90,7 +87,7 @@ class _ErrorMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final errorMessage =
-        NotifierProvider.watch<AuthModel>(context)?.errorMessage;
+        NotifierProvider.watch<SignInModel>(context)?.errorMessage;
     if (errorMessage == null) return const SizedBox.shrink();
     return Text(
       errorMessage,

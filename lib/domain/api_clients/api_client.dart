@@ -53,6 +53,29 @@ class ApiClient {
 
     return json['jwt'] as String;
   }
+
+  Future<String> signUp({
+    required String username,
+    required String password,
+    required String name,
+    required String email,
+  }) async {
+    final url = _makeUri('/auth/sign-up');
+    final parameters = <String, dynamic>{
+      'username': username,
+      'password': password,
+      'name': name,
+      'email': email
+    };
+    final request = await client.postUrl(url);
+    request.headers.contentType = ContentType.json;
+    request.write(jsonEncode(parameters));
+    final response = await request.close();
+
+    final json = (await response.jsonDecode()) as Map<String, dynamic>;
+
+    return json['jwt'] as String;
+  }
 }
 
 extension HttpClientResponseJsonDecode on HttpClientResponse {

@@ -4,7 +4,7 @@ import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
-class AuthModel extends ChangeNotifier {
+class SignInModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
@@ -44,7 +44,9 @@ class AuthModel extends ChangeNotifier {
       notifyListeners();
       return;
     }
-    unawaited(Navigator.of(context).pushNamed(MainNavigationRoutes.mainScreen));
+
+    unawaited(Navigator.of(context)
+        .pushReplacementNamed(MainNavigationRoutes.mainScreen));
   }
 }
 
