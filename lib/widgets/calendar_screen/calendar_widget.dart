@@ -1,4 +1,4 @@
-import 'package:all_for_moms_frontend/models/event.dart';
+import 'package:all_for_moms_frontend/domain/entity/event.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 

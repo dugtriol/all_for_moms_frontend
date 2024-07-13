@@ -1,26 +1,22 @@
-import 'package:all_for_moms_frontend/models/task.dart';
-import 'package:all_for_moms_frontend/widgets/task_form/task_form_widget.dart';
+import 'package:all_for_moms_frontend/app/all_for_moms_app_model.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_widget.dart';
 import 'package:all_for_moms_frontend/widgets/task_screen/task_screen_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
-import 'package:provider/provider.dart';
-import 'package:table_calendar/table_calendar.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _selecteTab = 0;
+class _MainScreenState extends State<MainScreen> {
+  int _selectedTab = 0;
 
   void onSelectTab(int index) {
-    if (_selecteTab == index) return;
+    if (_selectedTab == index) return;
     setState(() {
-      _selecteTab = index;
+      _selectedTab = index;
     });
   }
 
@@ -32,16 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text("all for moms"),
       ),
       body: IndexedStack(
-        index: _selecteTab,
+        index: _selectedTab,
         children: [
           CalendarWidget(),
-          TaskListWidget(),
+          // TaskListWidget(),
           // ProfileWidget(),
           Text("Profile"),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selecteTab,
+        currentIndex: _selectedTab,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
@@ -58,6 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         onTap: onSelectTab,
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => AllForMomsAppModel().changeAuth()),
     );
   }
 }

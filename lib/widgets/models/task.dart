@@ -1,18 +1,17 @@
-import 'dart:collection';
+// import 'dart:collection';
 
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-class _Task {
-  String title;
-  String description;
+// class _Task {
+//   String title;
+//   String description;
+//   _Task(this.title, this.description);
+// }
 
-  _Task(this.title, this.description);
-}
-
-List<_Task> arrayOfTasks = [
-  _Task("Встреча 1", "Описание 1"),
-  _Task("Встреча 2", "Описание 2")
-];
+// List<_Task> arrayOfTasks = [
+//   _Task("Встреча 1", "Описание 1"),
+//   _Task("Встреча 2", "Описание 2")
+// ];
 
 // class ListOfTasks extends ChangeNotifier {
 //   List<Task> _listOfTasks = [Task("помыть полы", "description 1")];
