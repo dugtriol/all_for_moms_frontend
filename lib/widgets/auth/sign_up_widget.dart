@@ -11,6 +11,9 @@ class SignUpWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = NotifierProvider.read<SignUpModel>(context);
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Регистрация"),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +40,6 @@ class SignUpWidget extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Логин'),
               ),
             ),
-
             SizedBox(
               width: 250,
               child: TextField(
@@ -46,30 +48,41 @@ class SignUpWidget extends StatelessWidget {
                 decoration: const InputDecoration(labelText: 'Пароль'),
               ),
             ),
-            // SizedBox(
-            //   width: 250,
-            //   height: 60,
-            //   child: TextField(
-            //     controller: model?.dateOfBirthController,
-            //     decoration: const InputDecoration(
-            //       labelText: 'Дата рождения',
-            //       prefixIcon: Icon(
-            //         Icons.calendar_today,
-            //         size: 20.0,
-            //       ),
-            //     ),
-            //     onTap: () {
-            //       _selectDate();
-            //       setState(() {});
-            //     },
-            //   ),
-            // ),
+            SizedBox(
+              width: 250,
+              height: 60,
+              child: TextField(
+                controller: model?.dateOfBirthController,
+                decoration: const InputDecoration(
+                  labelText: 'Дата рождения',
+                  prefixIcon: Icon(
+                    Icons.calendar_today,
+                    size: 20.0,
+                  ),
+                ),
+                onTap: () {
+                  _selectDate(context);
+                },
+              ),
+            ),
             const SizedBox(height: 32),
             const _signUpButton(),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final model = NotifierProvider.read<SignUpModel>(context);
+    DateTime? _picker = await showDatePicker(
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+    if (_picker != null) {
+      model?.dateOfBirthController.text = _picker.toString().split(" ")[0];
+    }
   }
 }
 

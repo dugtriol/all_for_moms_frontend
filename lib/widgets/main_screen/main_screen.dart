@@ -31,8 +31,8 @@ class _MainScreenState extends State<MainScreen> {
         index: _selectedTab,
         children: [
           CalendarWidget(),
-          // TaskListWidget(),
-          // ProfileWidget(),
+          TaskListWidget(),
+          ProfileWidget(),
           Text("Profile"),
         ],
       ),

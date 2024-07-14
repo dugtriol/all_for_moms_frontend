@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
+import 'package:all_for_moms_frontend/utils/provider_old.dart';
+import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +18,7 @@ class SignInModel extends ChangeNotifier {
   bool get isAuthProgress => _isAuthProgress;
 
   Future<void> auth(BuildContext context) async {
+    final userModel = NotifierProvider.read<UserModel>(context);
     print('auth');
     final login = loginController.text;
     final password = passwordController.text;
@@ -44,6 +47,12 @@ class SignInModel extends ChangeNotifier {
       notifyListeners();
       return;
     }
+
+    final user = _apiClient.getUserByUsername(username: login);
+    print(user);
+    userModel?.setUser(await user);
+
+    print(' model ${userModel?.user?.username}');
 
     unawaited(Navigator.of(context)
         .pushReplacementNamed(MainNavigationRoutes.mainScreen));

@@ -11,7 +11,7 @@ class SignUpModel extends ChangeNotifier {
   final passwordController = TextEditingController();
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  // final dateOfBirthController = TextEditingController();
+  final dateOfBirthController = TextEditingController();
 
   String? _errorMessage = null;
 
@@ -26,7 +26,7 @@ class SignUpModel extends ChangeNotifier {
     final password = passwordController.text;
     final name = nameController.text;
     final email = emailController.text;
-    // final dateOfBirth = dateOfBirthController.text;
+    final dateOfBirth = dateOfBirthController.text;
 
     if (login.isEmpty || password.isEmpty || name.isEmpty || email.isEmpty) {
       _errorMessage = 'Не все поля заполнены';

@@ -16,26 +16,45 @@ class ApiClient {
     }
   }
 
-  // Future<User> getUser() async {
-  //   final json = await get('http://localhost:8080/api/user');
+  Future<User> getUser() async {
+    final json = await get('http://localhost:8080/api/user');
 
-  //   final user = json
-  //       .map((dynamic e) => User.fromJson(e as Map<String, dynamic>))
-  //       .toList();
+    final user = json
+        .map((dynamic e) => User.fromJson(e as Map<String, dynamic>))
+        .toList();
 
-  //   return user;
-  // }
+    return user;
+  }
 
-  // Future<dynamic> get(String url_string) async {
-  //   final url = Uri.parse(url_string);
-  //   final request = await client.getUrl(url);
-  //   final response = await request.close();
+  Future<dynamic> get(String url_string) async {
+    final url = Uri.parse(url_string);
+    final request = await client.getUrl(url);
+    final response = await request.close();
 
-  //   final jsonStrings = await response.transform(utf8.decoder).toList();
-  //   final jsonString = jsonStrings.join();
-  //   final json = jsonDecode(jsonString);
-  //   return json;
-  // }
+    final jsonStrings = await response.transform(utf8.decoder).toList();
+    final jsonString = jsonStrings.join();
+    final json = jsonDecode(jsonString);
+    return json;
+  }
+
+  Future<User> getUserByUsername({required String username}) async {
+    print('getUserByUsername');
+    final url = _makeUri('/user');
+    final parameters = <String, dynamic>{
+      'username': username,
+    };
+    final request = await client.postUrl(url);
+    request.headers.contentType = ContentType.json;
+    request.write(jsonEncode(parameters));
+    final response = await request.close();
+
+    final json = (await response.jsonDecode()) as Map<String, dynamic>;
+    final user = User.fromJson(json);
+    print(user.email);
+    print(user.dateOfBirth);
+    print(user.username);
+    return user;
+  }
 
   Future<String> signIn(
       {required String username, required String password}) async {
