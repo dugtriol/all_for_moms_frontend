@@ -30,16 +30,4 @@ class User {
     if (rawDate == null || rawDate.isEmpty) return null;
     return DateTime.tryParse(rawDate);
   }
-
-  // static Type? _parseTypeFromString(String? rawType) {
-  //   if (rawType == null || rawType.isEmpty) return null;
-  //   return Type(type: rawType);
-  // }
-
-  // static String? _parseTypeToJson(Type? rawType) {
-  //   if (rawType!.type.isEmpty || rawType.type == null) {
-  //     return null;
-  //   }
-  //   return rawType.type;
-  // }
 }

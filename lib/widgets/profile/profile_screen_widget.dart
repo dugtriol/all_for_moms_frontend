@@ -13,8 +13,10 @@ class ProfileWidget extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Text("name ${model?.user?.name}"),
-            Text("email ${model?.user?.email}"),
+            Text("Имя: ${model?.user?.name}"),
+            Text("Почтовый адрес: ${model?.user?.email}"),
+            Text("Дата рождения: ${model?.user?.dateOfBirth}"),
+            Text("Идентификатор: ${model?.user?.id}"),
           ],
         ),
       ),
