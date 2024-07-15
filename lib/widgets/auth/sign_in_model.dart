@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
+import 'package:all_for_moms_frontend/domain/auth/auth_token.dart';
 import 'package:all_for_moms_frontend/utils/provider_old.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 
 class SignInModel extends ChangeNotifier {
+  final tokenModel = Token();
   final _apiClient = ApiClient();
   final loginController = TextEditingController();
   final passwordController = TextEditingController();
@@ -47,12 +49,13 @@ class SignInModel extends ChangeNotifier {
       notifyListeners();
       return;
     }
+    await tokenModel.saveToken(jwtToken);
 
-    final user = _apiClient.getUserByUsername(username: login);
+    final user = _apiClient.getCurrentUser();
     print(user);
     userModel?.setUser(await user);
 
-    print(' model ${userModel?.user?.username}');
+    // print(' model ${userModel?.user?.username}');
 
     unawaited(Navigator.of(context)
         .pushReplacementNamed(MainNavigationRoutes.mainScreen));

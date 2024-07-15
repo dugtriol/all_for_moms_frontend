@@ -3,7 +3,6 @@ import 'package:all_for_moms_frontend/widgets/task_screen/task_detailed_widget.d
 import 'package:flutter/material.dart';
 
 class TaskListWidget extends StatelessWidget {
-  // int length = arrayOfTasks.length;
   TaskListWidget({super.key});
   @override
   Widget build(BuildContext context) {
@@ -14,7 +13,7 @@ class TaskListWidget extends StatelessWidget {
         separatorBuilder: (BuildContext context, int index) {
           return const Divider(height: 1);
         },
-        itemCount: length);
+        itemCount: 2);
   }
 }
 
@@ -30,24 +29,24 @@ class _TaskListRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // var lists = context.read<ListOfTasks>();
     // final task = lists.getlistOfTasks[indexInList];
-    final title = arrayOfTasks[indexInList].title;
-    final description = arrayOfTasks[indexInList].description;
+    // final title = arrayOfTasks[indexInList].title;
+    // final description = arrayOfTasks[indexInList].description;
     return ListTile(
-      title: Text(title),
-      subtitle: Text(description),
+      title: Text("title"),
+      subtitle: Text("description"),
       trailing: Icon(Icons.chevron_right),
       onTap: () {
         showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text(title),
+                title: Text("title"),
                 scrollable: true,
-                content: Padding(
-                  padding: const EdgeInsets.all(8),
+                content: const Padding(
+                  padding: EdgeInsets.all(8),
                   child: Column(
                     children: [
-                      Text('Описание: ${description}\n'),
+                      Text('Описание: ${"description"}\n'),
                       Text('Вознаграждение: ${3}\n'),
                       Text('Кто выполняет: '),
                     ],

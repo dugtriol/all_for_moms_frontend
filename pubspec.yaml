@@ -7,8 +7,10 @@ environment:
   sdk: '>=3.3.3 <4.0.0'
 
 dependencies:
+  dio: ^5.5.0+1
   flutter:
     sdk: flutter
+  flutter_secure_storage: ^9.2.2
   json_annotation: ^4.9.0
   table_calendar: ^3.0.8
 

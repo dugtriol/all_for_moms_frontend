@@ -1,5 +1,6 @@
 import 'package:all_for_moms_frontend/app/all_for_moms_app_model.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_widget.dart';
+import 'package:all_for_moms_frontend/widgets/profile/profile_screen_widget.dart';
 import 'package:all_for_moms_frontend/widgets/task_screen/task_screen_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text("all for moms"),
+        title: const Text("All for moms"),
       ),
       body: IndexedStack(
         index: _selectedTab,
@@ -33,7 +34,6 @@ class _MainScreenState extends State<MainScreen> {
           CalendarWidget(),
           TaskListWidget(),
           ProfileWidget(),
-          Text("Profile"),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -54,8 +54,8 @@ class _MainScreenState extends State<MainScreen> {
         ],
         onTap: onSelectTab,
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => AllForMomsAppModel().changeAuth()),
+      // floatingActionButton: FloatingActionButton(
+      //     onPressed: () => AllForMomsAppModel().changeAuth()),
     );
   }
 }
