@@ -4,13 +4,16 @@ import 'package:all_for_moms_frontend/widgets/auth/sign_up_widget.dart';
 import 'package:all_for_moms_frontend/widgets/main_screen/main_screen.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.read<SignInModel>(context);
+    // final model = NotifierProvider.read<SignInModel>(context);
+    final model = context.read<SignInModel>();
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -59,7 +62,8 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SignInModel>(context);
+    // final model = NotifierProvider.watch<SignInModel>(context);
+    final model = context.read<SignInModel>();
     final child = model?.isAuthProgress == true
         ? const SizedBox(
             child: CircularProgressIndicator(),
@@ -86,8 +90,9 @@ class _ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage =
-        NotifierProvider.watch<SignInModel>(context)?.errorMessage;
+    // final errorMessage =
+    //     NotifierProvider.watch<SignInModel>(context)?.errorMessage;
+    final errorMessage = context.watch<SignInModel>()?.errorMessage;
     if (errorMessage == null) return const SizedBox.shrink();
     return Text(
       errorMessage,

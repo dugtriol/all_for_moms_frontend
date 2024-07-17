@@ -1,21 +1,22 @@
 import 'package:all_for_moms_frontend/domain/entity/family_member.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'family.g.dart';
+part 'family_create.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class Family {
+class FamilyCreate {
   @JsonKey(name: "members_id")
   final List<FamilyMember> membersId;
 
   @JsonKey(name: "type_id_for_host")
   final int typeIdForHost;
 
-  Family({
+  FamilyCreate({
     required this.membersId,
     required this.typeIdForHost,
   });
 
-  factory Family.fromJson(Map<String, dynamic> json) => _$FamilyFromJson(json);
-  Map<String, dynamic> toJson() => _$FamilyToJson(this);
+  factory FamilyCreate.fromJson(Map<String, dynamic> json) =>
+      _$FamilyCreateFromJson(json);
+  Map<String, dynamic> toJson() => _$FamilyCreateToJson(this);
 }

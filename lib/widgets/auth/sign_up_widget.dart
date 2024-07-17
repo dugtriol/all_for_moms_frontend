@@ -1,6 +1,7 @@
 import 'package:all_for_moms_frontend/utils/provider_old.dart';
 import 'package:all_for_moms_frontend/widgets/auth/sign_up_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'sign_in_widget.dart';
 
@@ -9,7 +10,9 @@ class SignUpWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.read<SignUpModel>(context);
+    // final model = NotifierProvider.read<SignUpModel>(context);
+    final model = context.read<SignUpModel>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Регистрация"),
@@ -74,7 +77,8 @@ class SignUpWidget extends StatelessWidget {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final model = NotifierProvider.read<SignUpModel>(context);
+    // final model = NotifierProvider.read<SignUpModel>(context);
+    final model = context.read<SignUpModel>();
     DateTime? _picker = await showDatePicker(
       context: context,
       firstDate: DateTime(1900),
@@ -93,7 +97,8 @@ class _signUpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = NotifierProvider.watch<SignUpModel>(context);
+    // final model = NotifierProvider.watch<SignUpModel>(context);
+    final model = context.watch<SignUpModel>();
     final child = model?.isSignUpProgress == true
         ? const SizedBox(
             child: CircularProgressIndicator(),
@@ -121,8 +126,9 @@ class _ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage =
-        NotifierProvider.watch<SignUpModel>(context)?.errorMessage;
+    // final errorMessage =
+    //     NotifierProvider.watch<SignUpModel>(context)?.errorMessage;
+    final errorMessage = context.watch<SignUpModel>()?.errorMessage;
     if (errorMessage == null) return const SizedBox.shrink();
     return Text(
       errorMessage,

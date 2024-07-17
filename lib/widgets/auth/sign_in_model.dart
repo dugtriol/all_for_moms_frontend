@@ -2,10 +2,12 @@ import 'dart:async';
 
 import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
 import 'package:all_for_moms_frontend/domain/auth/auth_token.dart';
+import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/utils/provider_old.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInModel extends ChangeNotifier {
   final tokenModel = Token();
@@ -20,7 +22,10 @@ class SignInModel extends ChangeNotifier {
   bool get isAuthProgress => _isAuthProgress;
 
   Future<void> auth(BuildContext context) async {
-    final userModel = NotifierProvider.read<UserModel>(context);
+    final userModel = context.read<UserModel>();
+    // NotifierProvider.read<UserModel>(context);
+    //  NotifierProvider.read<FamilyModel>(context);
+    final familyModel = context.read<FamilyModel>();
     print('auth');
     final login = loginController.text;
     final password = passwordController.text;
@@ -51,10 +56,13 @@ class SignInModel extends ChangeNotifier {
     }
     await tokenModel.saveToken(jwtToken);
 
-    final user = _apiClient.getCurrentUser();
+    final user = await _apiClient.getCurrentUser();
     print(user);
     userModel?.setUser(await user);
 
+    final family = await _apiClient.getFamilyByUserId();
+    print(family.id);
+    familyModel?.setFamily(family);
     // print(' model ${userModel?.user?.username}');
 
     unawaited(Navigator.of(context)
