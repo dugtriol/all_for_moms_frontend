@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
 import 'package:all_for_moms_frontend/domain/auth/auth_token.dart';
 import 'package:all_for_moms_frontend/utils/family_model.dart';
-import 'package:all_for_moms_frontend/utils/provider_old.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';

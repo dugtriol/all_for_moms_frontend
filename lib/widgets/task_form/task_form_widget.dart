@@ -1,31 +1,16 @@
-import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class TaskFormWidget extends StatefulWidget {
+class TaskFormWidget extends StatelessWidget {
   const TaskFormWidget({super.key});
 
   @override
-  State<TaskFormWidget> createState() => _TaskFormWidgetState();
-}
-
-class _TaskFormWidgetState extends State<TaskFormWidget> {
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-
-  @override
-  void dispose() {
-    titleController.dispose();
-    descriptionController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final titleController = TextEditingController();
+    final descriptionController = TextEditingController();
     print('AddTaskWidget');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Task'),
+        title: const Text('Создать задание'),
       ),
       body: Center(
         child: Column(

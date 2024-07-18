@@ -11,7 +11,7 @@ Task _$TaskFromJson(Map<String, dynamic> json) => Task(
       description: json['description'] as String,
       endDate: Task._parseDateFromString(json['end_date'] as String?),
       isRecurring: json['is_recurring'] as bool,
-      recurrenceInterval: (json['recurrence_interval'] as num).toInt(),
+      recurrenceInterval: (json['recurrence_interval'] as num?)?.toInt(),
       rewardPoint: (json['reward_point'] as num).toInt(),
       startDate: Task._parseDateFromString(json['start_date'] as String?),
       taskGetter: (json['task_getter'] as num).toInt(),

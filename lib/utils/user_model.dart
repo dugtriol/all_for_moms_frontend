@@ -14,6 +14,13 @@ class UserModel extends ChangeNotifier {
     return _user!.type!.type;
   }
 
+  int get id {
+    if (_user?.id == null) {
+      return -1;
+    }
+    return _user!.id!;
+  }
+
   void setUser(User user) {
     _user = user;
     notifyListeners();

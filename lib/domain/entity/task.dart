@@ -18,7 +18,7 @@ class Task {
   final bool isRecurring;
 
   @JsonKey(name: "recurrence_interval")
-  final int recurrenceInterval;
+  final int? recurrenceInterval;
 
   @JsonKey(name: "task_getter")
   final int taskGetter;

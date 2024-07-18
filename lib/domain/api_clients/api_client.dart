@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:all_for_moms_frontend/domain/entity/family_create.dart';
 import 'package:all_for_moms_frontend/domain/entity/family_response.dart';
+import 'package:all_for_moms_frontend/domain/entity/task.dart';
 import 'package:all_for_moms_frontend/domain/entity/user.dart';
 import 'package:dio/dio.dart';
 
@@ -109,6 +110,30 @@ class ApiClient {
         }));
     FamilyResponse family = FamilyResponse.fromJson(response.data);
     return family;
+  }
+
+  Future<List<Task>> getTasksByTaskSetterId({required int userId}) async {
+    String token = "";
+    try {
+      token = await tokenModel.getToken();
+      print('Token: $token');
+    } catch (e) {
+      print(e);
+    }
+
+    print('getTasksByTaskSetterId');
+    final url = _makeUri('/task/setter/$userId');
+
+    final response = await client.get(url.toString(),
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        }));
+    print(response.data.toString());
+    final List<Task> tasks =
+        List<Task>.from(response.data.map((e) => Task.fromJson(e)));
+    print(tasks.length);
+    return tasks;
   }
 }
 
