@@ -1,10 +1,7 @@
-import 'package:all_for_moms_frontend/domain/entity/task.dart';
+import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
 import 'package:all_for_moms_frontend/utils/task_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
-import 'package:all_for_moms_frontend/widgets/models/task.dart';
-import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:all_for_moms_frontend/widgets/task_form/task_form_widget.dart';
-import 'package:all_for_moms_frontend/widgets/task_screen/task_detailed_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,10 +24,11 @@ class TaskListWidget extends StatelessWidget {
           separatorBuilder: (BuildContext context, int index) {
             return const Divider(height: 1);
           },
-          itemCount: taskModel.tasks!.length,
+          itemCount: taskModel.tasks?.length ?? 0,
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "btn3",
         child: const Icon(Icons.add),
         onPressed: () {
           //Navigator.pushNamed(context, MainNavigationRoutes.taskForm);
@@ -44,7 +42,7 @@ class TaskListWidget extends StatelessWidget {
 
 class _TaskListRowWidget extends StatelessWidget {
   final int indexInList;
-  final Task task;
+  final TaskResponse task;
 
   const _TaskListRowWidget({
     super.key,
@@ -73,6 +71,7 @@ class _TaskListRowWidget extends StatelessWidget {
                   padding: EdgeInsets.all(8),
                   child: Column(
                     children: [
+                      Text('id: ${task.id}\n'),
                       Text('Описание: ${task.description}\n'),
                       Text('Вознаграждение: ${task.rewardPoint}\n'),
                       Text('id выполняет: ${task.taskGetter}'),

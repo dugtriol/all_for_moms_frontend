@@ -3,7 +3,8 @@ import 'dart:io';
 
 import 'package:all_for_moms_frontend/domain/entity/family_create.dart';
 import 'package:all_for_moms_frontend/domain/entity/family_response.dart';
-import 'package:all_for_moms_frontend/domain/entity/task.dart';
+import 'package:all_for_moms_frontend/domain/entity/task_request.dart';
+import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
 import 'package:all_for_moms_frontend/domain/entity/user.dart';
 import 'package:dio/dio.dart';
 
@@ -112,7 +113,8 @@ class ApiClient {
     return family;
   }
 
-  Future<List<Task>> getTasksByTaskSetterId({required int userId}) async {
+  Future<List<TaskResponse>> getTasksByTaskSetterId(
+      {required int userId}) async {
     String token = "";
     try {
       token = await tokenModel.getToken();
@@ -130,10 +132,29 @@ class ApiClient {
           HttpHeaders.authorizationHeader: "Bearer $token",
         }));
     print(response.data.toString());
-    final List<Task> tasks =
-        List<Task>.from(response.data.map((e) => Task.fromJson(e)));
+    final List<TaskResponse> tasks = List<TaskResponse>.from(
+        response.data.map((e) => TaskResponse.fromJson(e)));
     print(tasks.length);
     return tasks;
+  }
+
+  Future<void> createTask({required TaskResponse task}) async {
+    String token = "";
+    try {
+      token = await tokenModel.getToken();
+      print('Token: $token');
+    } catch (e) {
+      print(e);
+    }
+    final url = _makeUri('/task');
+    final response = await client.post(
+      url.toString(),
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: "Bearer $token",
+      }),
+      data: task.toJson(),
+    );
   }
 }
 

@@ -111,6 +111,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       //   child: const Icon(Icons.add),
       // ));
       floatingActionButton: FloatingActionButton(
+        heroTag: "btn1",
         child: const Icon(Icons.add),
         onPressed: () {
           showDialog(

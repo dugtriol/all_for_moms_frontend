@@ -1,9 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'task.g.dart';
+part 'task_response.g.dart';
 
 @JsonSerializable()
-class Task {
+class TaskResponse {
+  final int id;
   final String title;
 
   final String description;
@@ -26,21 +27,28 @@ class Task {
   @JsonKey(name: "reward_point")
   final int rewardPoint;
 
-  Task(
-      {required this.title,
-      required this.description,
-      required this.endDate,
-      required this.isRecurring,
-      required this.recurrenceInterval,
-      required this.rewardPoint,
-      required this.startDate,
-      required this.taskGetter});
+  @JsonKey(name: "is_completed")
+  final bool isCompleted;
+
+  TaskResponse({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.endDate,
+    required this.isRecurring,
+    required this.recurrenceInterval,
+    required this.rewardPoint,
+    required this.startDate,
+    required this.taskGetter,
+    required this.isCompleted,
+  });
 
   static DateTime? _parseDateFromString(String? rawDate) {
     if (rawDate == null || rawDate.isEmpty) return null;
     return DateTime.tryParse(rawDate);
   }
 
-  factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
-  Map<String, dynamic> toJson() => _$TaskToJson(this);
+  factory TaskResponse.fromJson(Map<String, dynamic> json) =>
+      _$TaskResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$TaskResponseToJson(this);
 }

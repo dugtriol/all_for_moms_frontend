@@ -1,23 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'task.dart';
+part of 'task_request.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Task _$TaskFromJson(Map<String, dynamic> json) => Task(
+TaskRequest _$TaskRequestFromJson(Map<String, dynamic> json) => TaskRequest(
       title: json['title'] as String,
       description: json['description'] as String,
-      endDate: Task._parseDateFromString(json['end_date'] as String?),
+      endDate: TaskRequest._parseDateFromString(json['end_date'] as String?),
       isRecurring: json['is_recurring'] as bool,
       recurrenceInterval: (json['recurrence_interval'] as num?)?.toInt(),
       rewardPoint: (json['reward_point'] as num).toInt(),
-      startDate: Task._parseDateFromString(json['start_date'] as String?),
+      startDate:
+          TaskRequest._parseDateFromString(json['start_date'] as String?),
       taskGetter: (json['task_getter'] as num).toInt(),
     );
 
-Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
+Map<String, dynamic> _$TaskRequestToJson(TaskRequest instance) =>
+    <String, dynamic>{
       'title': instance.title,
       'description': instance.description,
       'start_date': instance.startDate?.toIso8601String(),

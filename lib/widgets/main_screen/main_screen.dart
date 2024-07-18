@@ -1,8 +1,11 @@
 import 'package:all_for_moms_frontend/app/all_for_moms_app_model.dart';
+import 'package:all_for_moms_frontend/utils/task_model.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_widget.dart';
 import 'package:all_for_moms_frontend/widgets/profile/profile_screen_widget.dart';
+import 'package:all_for_moms_frontend/widgets/task_form/task_create_model.dart';
 import 'package:all_for_moms_frontend/widgets/task_screen/task_screen_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -32,7 +35,13 @@ class _MainScreenState extends State<MainScreen> {
         index: _selectedTab,
         children: [
           CalendarWidget(),
-          TaskListWidget(),
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (_) => TaskModel()),
+              ChangeNotifierProvider(create: (_) => TaskCreateModel()),
+            ],
+            child: TaskListWidget(),
+          ),
           ProfileWidget(),
         ],
       ),

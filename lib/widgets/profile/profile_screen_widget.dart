@@ -58,6 +58,7 @@ class ProfileWidget extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
+        heroTag: "btn2",
         onPressed: () {},
         icon: Icon(Icons.add),
         label: Text("Создать семью"),
