@@ -22,7 +22,7 @@ class TaskModel extends ChangeNotifier {
     print('updateTasks');
     final List<TaskResponse> tasks =
         await _apiClient.getTasksByTaskSetterId(userId: userId);
-    print(tasks.length);
+    // print(tasks.length);
     setTask(tasks);
   }
 }

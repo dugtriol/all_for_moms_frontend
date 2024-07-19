@@ -2,9 +2,9 @@ import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/auth/sign_up_model.dart';
 import 'package:all_for_moms_frontend/widgets/auth/sign_up_widget.dart';
 import 'package:all_for_moms_frontend/widgets/main_screen/main_screen_model.dart';
-import 'package:all_for_moms_frontend/widgets/task_form/task_create_model.dart';
-import 'package:all_for_moms_frontend/widgets/task_form/task_form_widget.dart';
-import 'package:all_for_moms_frontend/widgets/task_screen/task_screen_widget.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_form/task_create_model.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_form/task_form_widget.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_screen/task_screen_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

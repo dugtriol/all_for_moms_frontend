@@ -40,4 +40,8 @@ class TaskRequest {
     if (rawDate == null || rawDate.isEmpty) return null;
     return DateTime.tryParse(rawDate);
   }
+
+  factory TaskRequest.fromJson(Map<String, dynamic> json) =>
+      _$TaskRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$TaskRequestToJson(this);
 }

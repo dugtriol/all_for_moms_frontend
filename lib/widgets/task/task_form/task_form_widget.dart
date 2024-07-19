@@ -1,5 +1,7 @@
 import 'package:all_for_moms_frontend/utils/family_model.dart';
-import 'package:all_for_moms_frontend/widgets/task_form/task_create_model.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
+import 'package:all_for_moms_frontend/utils/user_model.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_form/task_create_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +42,7 @@ class TaskFormWidget extends StatelessWidget {
                 maxLines: null,
                 expands: true,
                 decoration: InputDecoration(
-                  hintText: 'Описание',
+                  labelText: 'Описание',
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (text) {
@@ -91,7 +93,7 @@ class TaskFormWidget extends StatelessWidget {
     final model = context.read<TaskCreateModel>();
     DateTime? _picker = await showDatePicker(
       context: context,
-      firstDate: DateTime(1900),
+      firstDate: DateTime.now(),
       lastDate: DateTime(2100),
     );
     if (_picker != null) {
@@ -101,18 +103,12 @@ class TaskFormWidget extends StatelessWidget {
 }
 
 class recurrenceIntervalMenu extends StatelessWidget {
-  List<String> list = [
-    'Не повторять',
-    'Ежедневно',
-    'Еженедельно',
-    'Ежемесячно',
-    'Ежегодно'
-  ];
   recurrenceIntervalMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
     final model = context.read<TaskCreateModel>();
+    final list = model.list;
     String dropdownValue = list.first;
     return DropdownMenu<String>(
       label: const Text("Повтор"),
@@ -136,7 +132,7 @@ class getterNameMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final modelTaskCreate = context.read<TaskCreateModel>();
     final modelFamily = context.read<FamilyModel>();
-    final list = modelFamily.listNameMembers;
+    final list = modelFamily.listUsernameMembers;
     String dropdownValue = list?.first ?? "нет семьи";
     return list != null
         ? DropdownMenu<String>(

@@ -28,7 +28,7 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      print('Token: $token');
+      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -56,8 +56,9 @@ class ApiClient {
         options: Options(
             headers: {HttpHeaders.contentTypeHeader: "application/json"}),
         data: jsonEncode(parameters));
-
-    return response.data['jwt'] as String;
+    String jwt = response.data['jwt'] as String;
+    print(jwt);
+    return jwt;
   }
 
   Future<String> signUp({
@@ -99,7 +100,7 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      print('Token: $token');
+      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -118,7 +119,7 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      print('Token: $token');
+      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -131,18 +132,17 @@ class ApiClient {
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.authorizationHeader: "Bearer $token",
         }));
-    print(response.data.toString());
     final List<TaskResponse> tasks = List<TaskResponse>.from(
         response.data.map((e) => TaskResponse.fromJson(e)));
-    print(tasks.length);
+
     return tasks;
   }
 
-  Future<void> createTask({required TaskResponse task}) async {
+  Future<void> createTask({required TaskRequest task}) async {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      print('Token: $token');
+      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -155,6 +155,21 @@ class ApiClient {
       }),
       data: task.toJson(),
     );
+  }
+
+  Future<int> getUserIdByName({required String name}) async {
+    print("getUserIdByName");
+    final Map<String, dynamic> datajson = {'username': name};
+    final url = _makeUri('/user');
+    final response = await client.post(
+      url.toString(),
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      }),
+      data: jsonEncode(datajson),
+    );
+    int id = response.data['id'];
+    return id;
   }
 }
 

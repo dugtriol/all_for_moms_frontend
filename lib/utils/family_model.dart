@@ -16,10 +16,10 @@ class FamilyModel extends ChangeNotifier {
     return _family?.members;
   }
 
-  List<String>? get listNameMembers {
+  List<String>? get listUsernameMembers {
     List<String> list = [];
     for (User user in _family!.members) {
-      list.add(user.name);
+      list.add(user.username);
     }
     return list;
   }
