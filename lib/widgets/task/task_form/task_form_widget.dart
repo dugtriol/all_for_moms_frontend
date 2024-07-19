@@ -45,9 +45,7 @@ class TaskFormWidget extends StatelessWidget {
                   labelText: 'Описание',
                   border: OutlineInputBorder(),
                 ),
-                onChanged: (text) {
-                  print(text);
-                },
+                onChanged: (text) {},
               ),
             ),
             const SizedBox(height: 32),

@@ -1,6 +1,7 @@
 import 'package:all_for_moms_frontend/app/all_for_moms_app.dart';
 import 'package:all_for_moms_frontend/app/all_for_moms_app_model.dart';
 import 'package:all_for_moms_frontend/utils/family_model.dart';
+import 'package:all_for_moms_frontend/widgets/family_screen/family_create_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_form/task_create_model.dart';
@@ -17,6 +18,7 @@ void main() {
       ChangeNotifierProvider(create: (_) => FamilyModel()),
       // ChangeNotifierProvider(create: (_) => TaskModel()),
       ChangeNotifierProvider(create: (_) => TaskCreateModel()),
+      ChangeNotifierProvider(create: (_) => FamilyCreateModel()),
     ],
     child: AllForMomsApp(appModel: appModel),
   ));

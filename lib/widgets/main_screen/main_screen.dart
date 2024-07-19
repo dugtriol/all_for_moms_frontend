@@ -1,6 +1,5 @@
-import 'package:all_for_moms_frontend/app/all_for_moms_app_model.dart';
+import 'package:all_for_moms_frontend/widgets/family_screen/family_create_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
-import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_widget.dart';
 import 'package:all_for_moms_frontend/widgets/family_screen/family_list_screen_widget.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_form/task_create_model.dart';
@@ -29,13 +28,13 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text("All for moms"),
-      ),
+      // appBar: AppBar(
+      //   title: const Text("All for moms"),
+      // ),
       body: IndexedStack(
         index: _selectedTab,
         children: [
-          CalendarWidget(),
+          const CalendarWidget(),
           MultiProvider(
             providers: [
               ChangeNotifierProvider(create: (_) => TaskModel()),
@@ -45,7 +44,11 @@ class _MainScreenState extends State<MainScreen> {
             child: TaskListWidget(),
           ),
           // MultiProvider(
-          //   providers: [],
+          //   providers: [
+          //     ChangeNotifierProvider(
+          //       create: (_) => FamilyCreateModel(),
+          //     )
+          //   ],
           //   child: FamilyListWidget(),
           // ),
           FamilyListWidget(),
@@ -63,8 +66,8 @@ class _MainScreenState extends State<MainScreen> {
             label: "Список",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: "Профиль",
+            icon: Icon(Icons.family_restroom),
+            label: "Семья",
           )
         ],
         onTap: onSelectTab,

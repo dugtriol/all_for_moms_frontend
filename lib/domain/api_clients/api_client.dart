@@ -85,15 +85,27 @@ class ApiClient {
   }
 
   Future<FamilyResponse> createFamily({required FamilyCreate familyOld}) async {
+    print('createFamily');
+    String token = "";
+    try {
+      token = await tokenModel.getToken();
+      // print('Token: $token');
+    } catch (e) {
+      print(e);
+    }
     final url = _makeUri('/family/create-family');
-    final parameters = <String, dynamic>{
-      'members_id': familyOld.membersId,
-      'type_id_for_host': familyOld.typeIdForHost,
-    };
+    // final parameters = <String, dynamic>{
+    //   'members_id': familyOld.membersId,
+    //   'type_id_for_host': familyOld.typeIdForHost,
+    // };
+    print(familyOld.toJson());
     final response = await client.post(url.toString(),
-        options: Options(
-            headers: {HttpHeaders.contentTypeHeader: "application/json"}),
-        data: jsonEncode(parameters));
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        }),
+        data: familyOld.toJson());
+    print(response.data);
     FamilyResponse family = FamilyResponse.fromJson(response.data);
     return family;
   }

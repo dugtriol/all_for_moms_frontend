@@ -11,18 +11,19 @@ class FamilyListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userModel = context.read<UserModel>();
-    final familyModel = context.read<FamilyModel>();
-    //familyModel.updateFamily();
+    final familyModel = context.watch<FamilyModel>();
+    // if (familyModel.familyIsExist) {}
+    familyModel.updateFamily();
     return familyModel.familyIsExist
-        ? FamilyExistWidget(familyModel: familyModel)
-        : FamilyIsNotExistWidget(
+        ? _FamilyExistWidget(familyModel: familyModel)
+        : _FamilyIsNotExistWidget(
             familyModel: familyModel,
           );
   }
 }
 
-class FamilyExistWidget extends StatelessWidget {
-  const FamilyExistWidget({
+class _FamilyExistWidget extends StatelessWidget {
+  const _FamilyExistWidget({
     super.key,
     required this.familyModel,
   });
@@ -32,17 +33,19 @@ class FamilyExistWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Семья'),
+      ),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Column(
               children: [
-                Text("Члены семьи"),
                 SizedBox(
                   child: ListView.builder(
                     itemBuilder: (context, index) {
-                      return familyListTile(
+                      return _FamilyListTile(
                         familyModel: familyModel,
                         index: index,
                       );
@@ -60,8 +63,8 @@ class FamilyExistWidget extends StatelessWidget {
   }
 }
 
-class familyListTile extends StatelessWidget {
-  const familyListTile({
+class _FamilyListTile extends StatelessWidget {
+  const _FamilyListTile({
     super.key,
     required this.familyModel,
     required this.index,
@@ -74,7 +77,7 @@ class familyListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     String? type = familyModel.getType(index);
     return ListTile(
-      leading: avatarFamilyListTile(
+      leading: _AvatarFamilyListTile(
         type: type,
       ),
       title: Text("${familyModel.getName(index)}"),
@@ -83,8 +86,8 @@ class familyListTile extends StatelessWidget {
   }
 }
 
-class avatarFamilyListTile extends StatelessWidget {
-  const avatarFamilyListTile({
+class _AvatarFamilyListTile extends StatelessWidget {
+  const _AvatarFamilyListTile({
     super.key,
     required this.type,
   });
@@ -109,29 +112,40 @@ class avatarFamilyListTile extends StatelessWidget {
   }
 }
 
-class FamilyIsNotExistWidget extends StatelessWidget {
+class _FamilyIsNotExistWidget extends StatelessWidget {
   final FamilyModel familyModel;
-  const FamilyIsNotExistWidget({super.key, required this.familyModel});
+  const _FamilyIsNotExistWidget({super.key, required this.familyModel});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Семья'),
+      ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Нет семьи'),
+            TextButton(
+              // heroTag: "btn4",
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute<void>(
+                    builder: (context) => FamilyCreateWidget()));
+              },
+              child: Text("Создать семью"),
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        heroTag: "btn4",
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute<void>(
-              builder: (context) => FamilyCreateWidget()));
-        },
-        icon: Icon(Icons.add),
-        label: Text("Создать семью"),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   heroTag: "btn4",
+      //   onPressed: () {
+      //     Navigator.of(context).push(MaterialPageRoute<void>(
+      //         builder: (context) => FamilyCreateWidget()));
+      //   },
+      //   icon: Icon(Icons.add),
+      //   label: Text("Создать семью"),
+      // ),
     );
   }
 }

@@ -36,6 +36,9 @@ class IfTasksExistWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Задания'),
+      ),
       body: Center(
         child: ListView.separated(
           itemBuilder: (BuildContext context, int index) {
@@ -81,7 +84,7 @@ class _TaskListRowWidget extends StatelessWidget {
     // final description = arrayOfTasks[indexInList].description;
     return ListTile(
       title: Text("${task.title}"),
-      subtitle: Text("${task.description}"),
+      subtitle: Text("${task.endDate}"),
       trailing: Icon(Icons.chevron_right),
       onTap: () {
         showDialog(
@@ -122,8 +125,11 @@ class IfTasksNotExist extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Задания'),
+      ),
+      body: const Center(
         child: Column(
           children: [
             Text('Нет заданий'),

@@ -30,7 +30,11 @@ class FamilyModel extends ChangeNotifier {
         _family?.members[index].type == null) {
       return "Нет данных";
     }
-    switch (_family!.members[index].type?.type) {
+    return returnTypeString(_family!.members[index].type!.type);
+  }
+
+  String returnTypeString(String str) {
+    switch (str) {
       case 'MOTHER':
         return 'Мама';
       case 'FATHER':
@@ -58,15 +62,17 @@ class FamilyModel extends ChangeNotifier {
   }
 
   Future<void> updateFamily() async {
+    // print('updateFamily');
     final FamilyResponse family = await _apiClient.getFamilyByUserId();
     setFamily(family);
+    notifyListeners();
   }
 
   void setFamily(FamilyResponse family) {
     if (family != null ||
         family.hosts.isNotEmpty ||
         family.members.isNotEmpty) {
-      print('isExist');
+      // print('isExist');
       familyIsExist = true;
       _family = family;
     } else {

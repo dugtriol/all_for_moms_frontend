@@ -51,6 +51,9 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Календарь'),
+      ),
       body: SafeArea(
         child: Column(
           children: [
