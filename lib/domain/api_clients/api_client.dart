@@ -66,13 +66,15 @@ class ApiClient {
     required String password,
     required String name,
     required String email,
+    required String dateOfBirth,
   }) async {
     final url = _makeUri('/auth/sign-up');
     final parameters = <String, dynamic>{
       'username': username,
       'password': password,
       'name': name,
-      'email': email
+      'email': email,
+      'date_of_birth': dateOfBirth,
     };
     final response = await client.post(url.toString(),
         options: Options(
@@ -94,6 +96,25 @@ class ApiClient {
         data: jsonEncode(parameters));
     FamilyResponse family = FamilyResponse.fromJson(response.data);
     return family;
+  }
+
+  Future<bool> isExistFamily() async {
+    String token = "";
+    try {
+      token = await tokenModel.getToken();
+      // print('Token: $token');
+    } catch (e) {
+      print(e);
+    }
+    final url = _makeUri('/family/is-exist-family');
+    final response = await client.get(url.toString(),
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        }));
+    final bool isExist = response.data['exist'] as bool;
+    print('isExist $isExist');
+    return isExist;
   }
 
   Future<FamilyResponse> getFamilyByUserId() async {

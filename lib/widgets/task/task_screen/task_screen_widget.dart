@@ -1,4 +1,5 @@
 import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
+import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_form/task_form_widget.dart';
@@ -11,7 +12,29 @@ class TaskListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final userModel = context.read<UserModel>();
     final taskModel = context.read<TaskModel>();
-    taskModel.updateTasks(userId: userModel.id);
+    final familyModel = context.read<FamilyModel>();
+    if (familyModel.familyIsExist) {
+      taskModel.updateTasks(userId: userModel.id);
+    }
+
+    return familyModel.familyIsExist
+        ? IfTasksExistWidget(taskModel: taskModel)
+        : IfTasksNotExist(
+            taskModel: taskModel,
+          );
+  }
+}
+
+class IfTasksExistWidget extends StatelessWidget {
+  const IfTasksExistWidget({
+    super.key,
+    required this.taskModel,
+  });
+
+  final TaskModel taskModel;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: ListView.separated(
@@ -85,6 +108,28 @@ class _TaskListRowWidget extends StatelessWidget {
               );
             });
       },
+    );
+  }
+}
+
+class IfTasksNotExist extends StatelessWidget {
+  const IfTasksNotExist({
+    super.key,
+    required this.taskModel,
+  });
+
+  final TaskModel taskModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            Text('Нет заданий'),
+          ],
+        ),
+      ),
     );
   }
 }

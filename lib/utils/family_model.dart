@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class FamilyModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   FamilyResponse? _family;
+  bool familyIsExist = false;
 
   FamilyResponse? get family => _family;
 
@@ -24,6 +25,31 @@ class FamilyModel extends ChangeNotifier {
     return list;
   }
 
+  String? getType(int index) {
+    if (_family!.members[index].type!.type.isEmpty ||
+        _family?.members[index].type == null) {
+      return "Нет данных";
+    }
+    switch (_family!.members[index].type?.type) {
+      case 'MOTHER':
+        return 'Мама';
+      case 'FATHER':
+        return 'Папа';
+      case 'BROTHER':
+        return 'Брат';
+      default:
+        return 'Нет роли';
+    }
+  }
+
+  String? getName(int index) {
+    if (_family!.members[index].name.isEmpty ||
+        _family?.members[index].name == null) {
+      return "Нет данных";
+    }
+    return _family!.members[index].name;
+  }
+
   List<User>? get hosts {
     if (_family == null || _family!.hosts.isEmpty) {
       return null;
@@ -37,7 +63,16 @@ class FamilyModel extends ChangeNotifier {
   }
 
   void setFamily(FamilyResponse family) {
-    _family = family;
+    if (family != null ||
+        family.hosts.isNotEmpty ||
+        family.members.isNotEmpty) {
+      print('isExist');
+      familyIsExist = true;
+      _family = family;
+    } else {
+      print('Not Exist');
+      familyIsExist = false;
+    }
     notifyListeners();
   }
 

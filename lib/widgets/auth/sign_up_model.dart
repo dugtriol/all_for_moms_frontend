@@ -44,6 +44,7 @@ class SignUpModel extends ChangeNotifier {
         password: password,
         name: name,
         email: email,
+        dateOfBirth: dateOfBirth,
       );
     } catch (e) {
       _errorMessage = 'Неправильный логин или пароль';

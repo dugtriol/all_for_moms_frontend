@@ -59,10 +59,15 @@ class SignInModel extends ChangeNotifier {
     print(user);
     userModel?.setUser(await user);
 
-    final family = await _apiClient.getFamilyByUserId();
-    print(family.id);
-    familyModel?.setFamily(family);
-    // print(' model ${userModel?.user?.username}');
+    final isExist = await _apiClient.isExistFamily();
+    if (isExist) {
+      final family = await _apiClient.getFamilyByUserId();
+      print(family.id);
+      familyModel.setFamily(family);
+      print(' model ${userModel?.user?.username}');
+    } else {
+      familyModel.familyIsExist = false;
+    }
 
     unawaited(Navigator.of(context)
         .pushReplacementNamed(MainNavigationRoutes.mainScreen));

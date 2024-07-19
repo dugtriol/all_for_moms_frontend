@@ -2,7 +2,7 @@ import 'package:all_for_moms_frontend/app/all_for_moms_app_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_widget.dart';
-import 'package:all_for_moms_frontend/widgets/profile/profile_screen_widget.dart';
+import 'package:all_for_moms_frontend/widgets/family_screen/family_list_screen_widget.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_form/task_create_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_screen_widget.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +44,11 @@ class _MainScreenState extends State<MainScreen> {
             ],
             child: TaskListWidget(),
           ),
-          ProfileWidget(),
+          // MultiProvider(
+          //   providers: [],
+          //   child: FamilyListWidget(),
+          // ),
+          FamilyListWidget(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
