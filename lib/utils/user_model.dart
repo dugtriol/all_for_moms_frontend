@@ -1,3 +1,4 @@
+import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
 import 'package:all_for_moms_frontend/domain/entity/user.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,7 @@ class UserModel extends ChangeNotifier {
     super.dispose();
   }
 
+  final _apiClient = ApiClient();
   User? _user;
 
   User? get user => _user;
@@ -63,5 +65,13 @@ class UserModel extends ChangeNotifier {
   void clearUser() {
     _user = null;
     notifyListeners();
+  }
+
+  Future<void> deleteUserById(int id) async {
+    try {
+      await _apiClient.deleteUser(id: id);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

@@ -303,6 +303,15 @@ class ApiClient {
     FamilyResponse familyResp = FamilyResponse.fromJson(response.data);
     return familyResp;
   }
+
+  Future<void> deleteUser({required int id}) async {
+    print('deleteUser');
+    final url = _makeUri('/user/delete-user');
+    final response = await client.delete(
+      url.toString(),
+      queryParameters: {'user_id': id},
+    );
+  }
 }
 
 extension HttpClientResponseJsonDecode on HttpClientResponse {

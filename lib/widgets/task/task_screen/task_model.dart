@@ -80,4 +80,26 @@ class TaskModel extends ChangeNotifier {
     }
     return DateFormat('yyyy-MM-dd').format(deadline);
   }
+
+  // Map<DateTime, List<TaskResponse>> getEvents() {
+  //   Map<DateTime, List<TaskResponse>> events = {};
+  //   print('getEvents');
+  //   if (isListSetterNotEmpty()) {
+  //     events.clear();
+  //     for (var task in tasksSetter!) {
+  //       if (task.endDate != null) {
+  //         final date = DateTime(
+  //             task.endDate!.year, task.endDate!.month, task.endDate!.day);
+  //         if (events[date] != null) {
+  //           events[date]!.add(task);
+  //         } else {
+  //           events[date] = [task];
+  //         }
+  //       }
+  //     }
+  //   }
+  //   print(events.entries.first.value);
+  //   notifyListeners();
+  //   return events;
+  // }
 }

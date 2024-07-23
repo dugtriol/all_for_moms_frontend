@@ -118,7 +118,7 @@ class FamilyModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  int _returnTypeId(String str) {
+  int returnTypeId(String str) {
     switch (str) {
       case 'MOTHER' || 'Мама':
         return 2;
@@ -130,27 +130,6 @@ class FamilyModel extends ChangeNotifier {
         return 1;
     }
   }
-
-  // FamilyUpdateRequest createUpdateFamilyRequest() {
-  //   List<FamilyMember> members = [];
-  //   List<FamilyMember> hosts = [];
-
-  //   for (User u in _family!.members) {
-  //     FamilyMember member =
-  //         FamilyMember(userId: u.id!, typeId: _returnTypeId(u.type!.type));
-  //     members.add(member);
-  //   }
-
-  //   for (User u in _family!.hosts) {
-  //     FamilyMember member =
-  //         FamilyMember(userId: u.id!, typeId: _returnTypeId(u.type!.type));
-  //     hosts.add(member);
-  //   }
-
-  //   FamilyUpdateRequest familyMembers =
-  //       FamilyUpdateRequest(hosts: hosts, members: members);
-  //   return familyMembers;
-  // }
 
   Future<void> addFamilyMember(
     BuildContext context,
@@ -168,7 +147,7 @@ class FamilyModel extends ChangeNotifier {
       return;
     }
 
-    final typeId = _returnTypeId(typeIdForMemberText);
+    final typeId = returnTypeId(typeIdForMemberText);
 
     FamilyMember member = FamilyMember(userId: userId, typeId: typeId);
 
@@ -203,7 +182,7 @@ class FamilyModel extends ChangeNotifier {
   ) async {
     FamilyResponse response;
     FamilyUpdateRequest family;
-    final typeId = _returnTypeId(typeIdForMemberText);
+    final typeId = returnTypeId(typeIdForMemberText);
 
     FamilyMember member = FamilyMember(userId: userId, typeId: typeId);
     family = FamilyUpdateRequest(hosts: [], members: [member]);

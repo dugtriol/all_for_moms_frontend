@@ -1,4 +1,5 @@
 import 'package:all_for_moms_frontend/domain/auth/auth_token.dart';
+import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,11 @@ class ProfileScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final modelUser = context.read<UserModel>();
+    final modelFamily = context.read<FamilyModel>();
     return Scaffold(
-      appBar: AppBar(title: Text('Профиль')),
+      appBar: AppBar(title: const Text('Профиль')),
       body: Container(
-        padding: EdgeInsets.only(left: 16, top: 25, right: 16),
+        padding: const EdgeInsets.only(left: 16, top: 25, right: 16),
         child: GestureDetector(
           onTap: () {
             FocusScope.of(context).unfocus();
@@ -32,10 +34,10 @@ class ProfileScreenWidget extends StatelessWidget {
                         spreadRadius: 2,
                         blurRadius: 10,
                         color: Colors.black.withOpacity(0.1),
-                        offset: Offset(0, 10))
+                        offset: const Offset(0, 10))
                   ],
                   shape: BoxShape.circle,
-                  image: DecorationImage(
+                  image: const DecorationImage(
                     // fit: BoxFit.cover,
                     image: AssetImage('assets/image.png'),
                   ),
@@ -46,8 +48,8 @@ class ProfileScreenWidget extends StatelessWidget {
               buildTextField('Имя', modelUser.username, false),
               buildTextField('Электронная почта', modelUser.email, false),
               buildTextField('Дата рождения', modelUser.dateOfBirth, false),
-              SizedBox(height: 10),
-              TextButton(
+              const SizedBox(height: 10),
+              ElevatedButton(
                   onPressed: () {
                     final tokenModel = Token();
                     try {
@@ -59,7 +61,69 @@ class ProfileScreenWidget extends StatelessWidget {
                     Navigator.of(context)
                         .pushReplacementNamed(MainNavigationRoutes.auth);
                   },
-                  child: const Text('Выйти из аккаунта'))
+                  child: const Text(
+                    'Выйти из аккаунта',
+                    style: TextStyle(fontSize: 16),
+                  )),
+              // TextButton(
+              //   onPressed: () {
+              //     showDialog(
+              //         context: context,
+              //         builder: (context) {
+              //           return AlertDialog(
+              //             title: Text('Удалить аккаунт'),
+              //             scrollable: true,
+              //             content: Padding(
+              //                 padding: EdgeInsets.all(8),
+              //                 child: Column(
+              //                   children: [
+              //                     Text(
+              //                       'Вы уверены, что хотите удалить аккаунт?',
+              //                       style: TextStyle(fontSize: 16),
+              //                     )
+              //                   ],
+              //                 )),
+              //             actions: [
+              //               ElevatedButton(
+              //                 onPressed: () async {
+              //                   try {
+              //                     // await modelFamily.deleteFamilyMember(
+              //                     //   context,
+              //                     //   modelUser.id,
+              //                     //   modelFamily
+              //                     //       .returnTypeString(modelUser.type!),
+              //                     // );
+              //                     await modelUser.deleteUserById(modelUser.id);
+              //                     final tokenModel = Token();
+              //                     await tokenModel.deleteToken();
+              //                   } on Exception catch (e) {
+              //                     print(e.toString());
+              //                   }
+              //                   Navigator.of(context).pushReplacementNamed(
+              //                       MainNavigationRoutes.auth);
+              //                 },
+              //                 child: Text(
+              //                   'Удалить',
+              //                   style: TextStyle(
+              //                     color: Colors.red,
+              //                   ),
+              //                 ),
+              //               ),
+              //               TextButton(
+              //                   onPressed: () => Navigator.of(context).pop(),
+              //                   child: const Text("Отмена"))
+              //             ],
+              //           );
+              //         });
+              //   },
+              //   child: Text(
+              //     'Удалить аккаунт',
+              //     style: TextStyle(
+              //       color: Colors.red,
+              //       fontSize: 16,
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),
