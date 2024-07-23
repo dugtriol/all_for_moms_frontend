@@ -16,7 +16,7 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => UserModel()),
       ChangeNotifierProvider(create: (_) => FamilyModel()),
-      // ChangeNotifierProvider(create: (_) => TaskModel()),
+      ChangeNotifierProvider(create: (_) => TaskModel()),
       ChangeNotifierProvider(create: (_) => TaskCreateModel()),
       ChangeNotifierProvider(create: (_) => FamilyCreateModel()),
     ],

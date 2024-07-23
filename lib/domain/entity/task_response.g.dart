@@ -18,6 +18,7 @@ TaskResponse _$TaskResponseFromJson(Map<String, dynamic> json) => TaskResponse(
           TaskResponse._parseDateFromString(json['start_date'] as String?),
       taskGetter: (json['task_getter'] as num).toInt(),
       isCompleted: json['is_completed'] as bool,
+      taskSetter: (json['task_setter'] as num).toInt(),
     );
 
 Map<String, dynamic> _$TaskResponseToJson(TaskResponse instance) =>
@@ -30,6 +31,7 @@ Map<String, dynamic> _$TaskResponseToJson(TaskResponse instance) =>
       'is_recurring': instance.isRecurring,
       'recurrence_interval': instance.recurrenceInterval,
       'task_getter': instance.taskGetter,
+      'task_setter': instance.taskSetter,
       'reward_point': instance.rewardPoint,
       'is_completed': instance.isCompleted,
     };

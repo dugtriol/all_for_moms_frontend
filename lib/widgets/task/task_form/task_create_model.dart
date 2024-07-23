@@ -70,15 +70,5 @@ class TaskCreateModel extends ChangeNotifier {
       taskGetter: id,
     );
     await _apiClient.createTask(task: task);
-    // print('createTask');
-    // print('title ${title}');
-    // print('description ${description}');
-    // print('enddate ${endDate}');
-    // print('ischecked ${isChecked.toString()}');
-    // print('recurrence ${reccuranceInterval}');
-    // print('username ${membersController.text}');
-    // print('id ${id}');
-    // print('startdate ${startDate.toString()}');
-    // print('reward $rewardPoint');
   }
 }

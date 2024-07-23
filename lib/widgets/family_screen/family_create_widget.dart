@@ -34,9 +34,9 @@ class FamilyCreateWidget extends StatelessWidget {
                     ),
                     SizedBox(width: 50),
                     ElevatedButton(
-                      onPressed: () {
-                        modelCreateFamily.createFamily(context);
-                        modelFamily.updateFamily();
+                      onPressed: () async {
+                        await modelCreateFamily.createFamily(context);
+                        await modelFamily.updateFamily();
                       },
                       child: const Text('Сохранить'),
                     ),

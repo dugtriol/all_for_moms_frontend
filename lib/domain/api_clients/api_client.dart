@@ -44,6 +44,21 @@ class ApiClient {
     return user;
   }
 
+  Future<User> getUserById({required int id}) async {
+    print("getUserIdByName");
+    final Map<String, dynamic> datajson = {'id': id};
+    final url = _makeUri('/user');
+    final response = await client.post(
+      url.toString(),
+      options: Options(headers: {
+        HttpHeaders.contentTypeHeader: "application/json",
+      }),
+      data: jsonEncode(datajson),
+    );
+    User user = User.fromJson(response.data);
+    return user;
+  }
+
   Future<String> signIn(
       {required String username, required String password}) async {
     final url = _makeUri('/auth/sign-in');
@@ -147,6 +162,23 @@ class ApiClient {
     return family;
   }
 
+  Future<void> completeTask({required taskId}) async {
+    String token = "";
+    try {
+      token = await tokenModel.getToken();
+      // print('Token: $token');
+    } catch (e) {
+      print(e);
+    }
+    print(taskId);
+    final url = _makeUri('/task/complete/$taskId');
+    final response = await client.put(url.toString(),
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        }));
+  }
+
   Future<List<TaskResponse>> getTasksByTaskSetterId(
       {required int userId}) async {
     String token = "";
@@ -159,6 +191,30 @@ class ApiClient {
 
     print('getTasksByTaskSetterId');
     final url = _makeUri('/task/setter/$userId');
+
+    final response = await client.get(url.toString(),
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        }));
+    final List<TaskResponse> tasks = List<TaskResponse>.from(
+        response.data.map((e) => TaskResponse.fromJson(e)));
+
+    return tasks;
+  }
+
+  Future<List<TaskResponse>> getTasksByTaskGetterId(
+      {required int userId}) async {
+    String token = "";
+    try {
+      token = await tokenModel.getToken();
+      // print('Token: $token');
+    } catch (e) {
+      print(e);
+    }
+
+    print('getTasksByTaskGetterId');
+    final url = _makeUri('/task/getter/$userId');
 
     final response = await client.get(url.toString(),
         options: Options(headers: {

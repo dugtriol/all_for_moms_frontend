@@ -1,9 +1,12 @@
+import 'package:all_for_moms_frontend/widgets/profile/profile_screen.dart';
+import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_model.dart';
 import 'package:all_for_moms_frontend/widgets/family_screen/family_create_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_widget.dart';
 import 'package:all_for_moms_frontend/widgets/family_screen/family_list_screen_widget.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_form/task_create_model.dart';
-import 'package:all_for_moms_frontend/widgets/task/task_screen/task_screen_widget.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_screen/tasks_list_widget.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_screen/tasks_setter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -26,35 +29,24 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final taskModel = context.read<TaskModel>();
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   title: const Text("All for moms"),
-      // ),
       body: IndexedStack(
         index: _selectedTab,
         children: [
-          const CalendarWidget(),
-          MultiProvider(
-            providers: [
-              ChangeNotifierProvider(create: (_) => TaskModel()),
-              ChangeNotifierProvider(create: (_) => TaskCreateModel()),
-              //ChangeNotifierProvider(create: (_) => UserModel()),
-            ],
-            child: TaskListWidget(),
+          ChangeNotifierProvider(
+            create: (context) => CalendarModel(taskModel: taskModel),
+            child: CalendarWidget(),
           ),
-          // MultiProvider(
-          //   providers: [
-          //     ChangeNotifierProvider(
-          //       create: (_) => FamilyCreateModel(),
-          //     )
-          //   ],
-          //   child: FamilyListWidget(),
-          // ),
+          TasksListWidget(),
           FamilyListWidget(),
+          ProfileScreenWidget(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        // backgroundColor: Colors.transparent,
         currentIndex: _selectedTab,
         items: const [
           BottomNavigationBarItem(
@@ -68,12 +60,14 @@ class _MainScreenState extends State<MainScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.family_restroom),
             label: "Семья",
-          )
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Профиль",
+          ),
         ],
         onTap: onSelectTab,
       ),
-      // floatingActionButton: FloatingActionButton(
-      //     onPressed: () => AllForMomsAppModel().changeAuth()),
     );
   }
 }

@@ -1,161 +1,129 @@
 import 'package:all_for_moms_frontend/domain/entity/event.dart';
+import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
+import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_model.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarWidget extends StatefulWidget {
+class CalendarWidget extends StatelessWidget {
   const CalendarWidget({super.key});
 
   @override
-  State<CalendarWidget> createState() => _CalendarWidgetState();
+  Widget build(BuildContext context) {
+    final modelCalendar = context.watch<CalendarModel>();
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Календарь'),
+        ),
+        body: SafeArea(
+          child: Column(
+            children: [
+              TableCalendarWidget(modelCalendar: modelCalendar),
+              const SizedBox(height: 20.0),
+              Expanded(
+                child: ValueListenableBuilderWidgetCalndar(
+                    modelCalendar: modelCalendar),
+              )
+            ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          heroTag: "btn1",
+          child: const Icon(Icons.add),
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    scrollable: true,
+                    title: const Text("Описание"),
+                    content: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: TextField(
+                        controller: modelCalendar.eventController,
+                      ),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        onPressed: () {
+                          modelCalendar.AddEventButton(context);
+                        },
+                        child: const Text("Сохранить"),
+                      ),
+                    ],
+                  );
+                });
+          },
+        ));
+  }
 }
 
-class _CalendarWidgetState extends State<CalendarWidget> {
-  void showForm(BuildContext context) {
-    Navigator.of(context).pushNamed('/home/add_task');
-  }
+class TableCalendarWidget extends StatelessWidget {
+  const TableCalendarWidget({
+    super.key,
+    required this.modelCalendar,
+  });
 
-  DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
-  Map<DateTime, List<Event>> events = {};
-  CalendarFormat _calendarFormat = CalendarFormat.month;
-  late final ValueNotifier<List<Event>> _selectedEvents;
-  List<Event>? lista;
-
-  final _eventController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-    _selectedDay = _focusedDay;
-    _selectedEvents = ValueNotifier(_getEventsForDay(_selectedDay!));
-  }
-
-  List<Event> _getEventsForDay(DateTime day) {
-    return events[day] ?? [];
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-    if (!isSameDay(_selectedDay, selectedDay)) {
-      setState(() {
-        _selectedDay = selectedDay;
-        _focusedDay = focusedDay;
-        _selectedEvents.value = _getEventsForDay(selectedDay);
-      });
-    }
-  }
+  final CalendarModel modelCalendar;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Календарь'),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            TableCalendar(
-              calendarFormat: _calendarFormat,
-              availableGestures: AvailableGestures.all,
-              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              focusedDay: DateTime.now(),
-              firstDay: DateTime.utc(2010, 10, 16),
-              lastDay: DateTime.utc(2030, 10, 16),
-              onDaySelected: _onDaySelected,
-              eventLoader: _getEventsForDay,
-              startingDayOfWeek: StartingDayOfWeek.monday,
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
-              },
-              onFormatChanged: (format) {
-                if (_calendarFormat != format) {
-                  setState(() {
-                    _calendarFormat = format;
-                  });
-                }
-              },
-            ),
-            const SizedBox(height: 20.0),
-            Expanded(
-              child: ValueListenableBuilder<List<Event>>(
-                valueListenable: _selectedEvents,
-                builder: (context, value, _) {
-                  return ListView.builder(
-                    itemCount: value.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: EdgeInsets.only(left: 12, right: 12, bottom: 5),
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: ListTile(
-                          onTap: () => print(""),
-                          title: Text(
-                            '${value[index].title}',
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            )
+    return TableCalendar(
+      calendarFormat: modelCalendar.calendarFormat,
+      availableGestures: AvailableGestures.all,
+      selectedDayPredicate: (day) => isSameDay(modelCalendar.selectedDay, day),
+      focusedDay: DateTime.now(),
+      firstDay: DateTime.utc(2010, 10, 16),
+      lastDay: DateTime.utc(2030, 10, 16),
+      onDaySelected: (selectedDay, focusedDay) =>
+          modelCalendar.onDaySelected(selectedDay, focusedDay),
+      eventLoader: (day) => modelCalendar.getEventsForDay(day),
+      startingDayOfWeek: StartingDayOfWeek.monday,
+      onPageChanged: (focusedDay) {
+        modelCalendar.onPageChangedFocusedDay(focusedDay);
+      },
+      onFormatChanged: (format) {
+        if (modelCalendar.calendarFormat != format) {
+          modelCalendar.changeCalendarFormat(format);
+        }
+      },
+    );
+  }
+}
 
-            // _TaskListWidget(length: 3)
-          ],
-        ),
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => showForm(context),
-      //   backgroundColor: Colors.purple[400],
-      //   child: const Icon(Icons.add),
-      // ));
-      floatingActionButton: FloatingActionButton(
-        heroTag: "btn1",
-        child: const Icon(Icons.add),
-        onPressed: () {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  scrollable: true,
-                  title: const Text("Описание"),
-                  content: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: TextField(
-                      controller: _eventController,
-                    ),
-                  ),
-                  actions: [
-                    ElevatedButton(
-                      onPressed: () {
-                        if (events[_selectedDay] != null) {
-                          lista = events[_selectedDay]!;
-                          events.addAll({
-                            _selectedDay!: [
-                              ...lista!,
-                              ...[Event(_eventController.text)]
-                            ],
-                          });
-                        } else {
-                          events.addAll({
-                            _selectedDay!: [Event(_eventController.text)]
-                          });
-                        }
-                        _eventController.text = "";
-                        Navigator.of(context).pop();
-                        _selectedEvents.value = _getEventsForDay(_selectedDay!);
-                      },
-                      child: const Text("Сохранить"),
-                    ),
-                  ],
-                );
-              });
-        },
-      ),
+class ValueListenableBuilderWidgetCalndar extends StatelessWidget {
+  const ValueListenableBuilderWidgetCalndar({
+    super.key,
+    required this.modelCalendar,
+  });
+
+  final CalendarModel modelCalendar;
+
+  @override
+  Widget build(BuildContext context) {
+    final modelTask = context.read<TaskModel>();
+    return ValueListenableBuilder<List<Event>>(
+      valueListenable: modelCalendar.selectedEvents,
+      builder: (context, value, _) {
+        return ListView.builder(
+          itemCount: value.length,
+          itemBuilder: (context, index) {
+            return Container(
+              margin: EdgeInsets.only(left: 12, right: 12, bottom: 5),
+              decoration: BoxDecoration(
+                  border: Border.all(),
+                  borderRadius: BorderRadius.circular(12)),
+              child: ListTile(
+                onTap: () => print(""),
+                title: Text(
+                  '${value[index].title}',
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

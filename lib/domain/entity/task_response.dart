@@ -24,24 +24,27 @@ class TaskResponse {
   @JsonKey(name: "task_getter")
   final int taskGetter;
 
+  @JsonKey(name: "task_setter")
+  final int taskSetter;
+
   @JsonKey(name: "reward_point")
   final int rewardPoint;
 
   @JsonKey(name: "is_completed")
   final bool isCompleted;
 
-  TaskResponse({
-    required this.id,
-    required this.title,
-    required this.description,
-    required this.endDate,
-    required this.isRecurring,
-    required this.recurrenceInterval,
-    required this.rewardPoint,
-    required this.startDate,
-    required this.taskGetter,
-    required this.isCompleted,
-  });
+  TaskResponse(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.endDate,
+      required this.isRecurring,
+      required this.recurrenceInterval,
+      required this.rewardPoint,
+      required this.startDate,
+      required this.taskGetter,
+      required this.isCompleted,
+      required this.taskSetter});
 
   static DateTime? _parseDateFromString(String? rawDate) {
     if (rawDate == null || rawDate.isEmpty) return null;

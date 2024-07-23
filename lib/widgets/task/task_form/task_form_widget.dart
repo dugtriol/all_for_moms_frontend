@@ -11,77 +11,82 @@ class TaskFormWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final modelCreateTask = context.watch<TaskCreateModel>();
+    final familyModel = context.read<FamilyModel>();
 
     print('AddTaskWidget');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Создать задание'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 300,
-              child: TextField(
-                controller: modelCreateTask.titleController,
-                autofocus: true,
-                decoration: InputDecoration(
-                  labelText: 'Название',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-            ),
-            const SizedBox(height: 22),
-            Container(
-              width: 300,
-              height: 100,
-              child: TextField(
-                controller: modelCreateTask.descriptionController,
-                minLines: null,
-                maxLines: null,
-                expands: true,
-                decoration: InputDecoration(
-                  labelText: 'Описание',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (text) {},
-              ),
-            ),
-            const SizedBox(height: 32),
-            SizedBox(
-              width: 300,
-              height: 60,
-              child: TextField(
-                controller: modelCreateTask.endDateController,
-                decoration: const InputDecoration(
-                  labelText: 'Дата окончания',
-                  prefixIcon: Icon(
-                    Icons.calendar_today,
-                    size: 20.0,
-                  ),
-                ),
-                onTap: () {
-                  _selectEndDate(context);
-                },
-              ),
-            ),
-            const SizedBox(height: 32),
-            recurrenceIntervalMenu(),
-            const SizedBox(height: 32),
-            getterNameMenu(),
-            const SizedBox(height: 32),
-            OutlinedButton(
-              onPressed: () {
-                modelCreateTask.createTask();
-                Navigator.of(context).pop();
-                modelCreateTask.clearFields();
-              },
-              child: const Text("Сохранить"),
+      body: !familyModel.familyIsExist
+          ? const Center(
+              child: Text('Сначала присоединись к семье'),
             )
-          ],
-        ),
-      ),
+          : Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 300,
+                    child: TextField(
+                      controller: modelCreateTask.titleController,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Название',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 22),
+                  Container(
+                    width: 300,
+                    height: 100,
+                    child: TextField(
+                      controller: modelCreateTask.descriptionController,
+                      minLines: null,
+                      maxLines: null,
+                      expands: true,
+                      decoration: const InputDecoration(
+                        labelText: 'Описание',
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (text) {},
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  SizedBox(
+                    width: 300,
+                    height: 60,
+                    child: TextField(
+                      controller: modelCreateTask.endDateController,
+                      decoration: const InputDecoration(
+                        labelText: 'Дата окончания',
+                        prefixIcon: Icon(
+                          Icons.calendar_today,
+                          size: 20.0,
+                        ),
+                      ),
+                      onTap: () {
+                        _selectEndDate(context);
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  recurrenceIntervalMenu(),
+                  const SizedBox(height: 32),
+                  getterNameMenu(),
+                  const SizedBox(height: 32),
+                  OutlinedButton(
+                    onPressed: () {
+                      modelCreateTask.createTask();
+                      Navigator.of(context).pop();
+                      modelCreateTask.clearFields();
+                    },
+                    child: const Text("Сохранить"),
+                  )
+                ],
+              ),
+            ),
     );
   }
 

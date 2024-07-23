@@ -4,4 +4,4 @@ import 'package:all_for_moms_frontend/widgets/main_screen/main_screen.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_form/task_form_widget.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_widget.dart';
-import 'package:all_for_moms_frontend/widgets/task/task_screen/task_screen_widget.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_screen/tasks_setter_widget.dart';

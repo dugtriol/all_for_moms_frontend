@@ -1,9 +1,16 @@
 import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
+import 'package:all_for_moms_frontend/domain/entity/family_member.dart';
 import 'package:all_for_moms_frontend/domain/entity/family_response.dart';
 import 'package:all_for_moms_frontend/domain/entity/user.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class FamilyModel extends ChangeNotifier {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   final _apiClient = ApiClient();
   FamilyResponse? _family;
   bool familyIsExist = false;
@@ -61,6 +68,25 @@ class FamilyModel extends ChangeNotifier {
     return _family?.hosts;
   }
 
+  String getNameById(int id) {
+    for (User user in _family!.members) {
+      if (user.id == id) {
+        return user.name;
+      }
+    }
+    return 'Нет данных';
+  }
+
+  String getDateOfBirth(int index) {
+    if (_family == null ||
+        _family!.members.isEmpty ||
+        _family!.members[index].dateOfBirth == null) {
+      return 'Нет данных';
+    }
+    return DateFormat('yyyy-MM-dd')
+        .format(_family!.members[index].dateOfBirth!);
+  }
+
   Future<void> updateFamily() async {
     // print('updateFamily');
     final FamilyResponse family = await _apiClient.getFamilyByUserId();
@@ -86,4 +112,28 @@ class FamilyModel extends ChangeNotifier {
     _family = null;
     notifyListeners();
   }
+
+  // void addFamilyMember(
+  //   BuildContext context,
+  //   String idMemberText,
+  // ) {
+  //   final int userId;
+
+  //   try {
+  //     userId = int.parse(idMemberController.text);
+  //   } catch (e) {
+  //     _errorMessage = 'Введите число';
+  //     notifyListeners();
+  //     return;
+  //   }
+
+  //   final typeId = returnTypeId(typeIdForMemberController.text);
+
+  //   FamilyMember member = FamilyMember(userId: userId, typeId: typeId);
+  //   members.add(member);
+  //   clearFileds();
+  //   _errorMessage = null;
+  //   notifyListeners();
+  //   Navigator.of(context).pop();
+  // }
 }

@@ -1,7 +1,13 @@
 import 'package:all_for_moms_frontend/domain/entity/user.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class UserModel extends ChangeNotifier {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   User? _user;
 
   User? get user => _user;
@@ -19,6 +25,34 @@ class UserModel extends ChangeNotifier {
       return -1;
     }
     return _user!.id!;
+  }
+
+  String get name {
+    if (_user?.name == null) {
+      return 'Нет данных';
+    }
+    return _user!.name;
+  }
+
+  String get email {
+    if (_user?.email == null) {
+      return 'Нет данных';
+    }
+    return _user!.email;
+  }
+
+  String get username {
+    if (_user?.username == null) {
+      return 'Нет данных';
+    }
+    return _user!.username;
+  }
+
+  String get dateOfBirth {
+    if (_user?.dateOfBirth == null) {
+      return 'Нет данных';
+    }
+    return DateFormat('yyyy-MM-dd').format(_user!.dateOfBirth!);
   }
 
   void setUser(User user) {
