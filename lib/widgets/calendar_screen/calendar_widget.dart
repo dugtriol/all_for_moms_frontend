@@ -21,11 +21,10 @@ class CalendarWidget extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            TableCalendarWidget(modelCalendar: modelCalendar),
+            TableCalendarWidget(),
             const SizedBox(height: 20.0),
             Expanded(
-              child: ValueListenableBuilderWidgetCalendar(
-                  modelCalendar: modelCalendar),
+              child: ValueListenableBuilderWidgetCalendar(),
             )
           ],
         ),
@@ -66,20 +65,18 @@ class CalendarWidget extends StatelessWidget {
 }
 
 class TableCalendarWidget extends StatelessWidget {
-  const TableCalendarWidget({
+  TableCalendarWidget({
     super.key,
-    required this.modelCalendar,
   });
-
-  final CalendarModel modelCalendar;
 
   @override
   Widget build(BuildContext context) {
+    final modelCalendar = context.watch<CalendarModel>();
     return TableCalendar(
       calendarFormat: modelCalendar.calendarFormat,
       availableGestures: AvailableGestures.all,
       selectedDayPredicate: (day) => isSameDay(modelCalendar.selectedDay, day),
-      focusedDay: DateTime.now(),
+      focusedDay: modelCalendar.focusedDay,
       firstDay: DateTime.utc(2010, 10, 16),
       lastDay: DateTime.utc(2030, 10, 16),
       onDaySelected: (selectedDay, focusedDay) =>
@@ -99,15 +96,13 @@ class TableCalendarWidget extends StatelessWidget {
 }
 
 class ValueListenableBuilderWidgetCalendar extends StatelessWidget {
-  const ValueListenableBuilderWidgetCalendar({
+  ValueListenableBuilderWidgetCalendar({
     super.key,
-    required this.modelCalendar,
   });
-
-  final CalendarModel modelCalendar;
 
   @override
   Widget build(BuildContext context) {
+    final modelCalendar = context.watch<CalendarModel>();
     final userModel = context.read<UserModel>();
     final modelTask = context.read<TaskModel>();
     final familyModel = context.read<FamilyModel>();
