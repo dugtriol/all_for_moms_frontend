@@ -14,10 +14,15 @@ class FamilyListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final userModel = context.read<UserModel>();
     final familyModel = context.watch<FamilyModel>();
+    final familyCreateModel = context.read<FamilyCreateModel>();
     // if (familyModel.familyIsExist) {}
     //familyModel.updateFamily();
     return familyModel.familyIsExist
-        ? _FamilyExistWidget(familyModel: familyModel)
+        ? _FamilyExistWidget(
+            familyModel: familyModel,
+            familyCreateModel: familyCreateModel,
+            userModel: userModel,
+          )
         : _FamilyIsNotExistWidget(
             familyModel: familyModel,
           );
@@ -28,9 +33,13 @@ class _FamilyExistWidget extends StatelessWidget {
   const _FamilyExistWidget({
     super.key,
     required this.familyModel,
+    required this.familyCreateModel,
+    required this.userModel,
   });
 
   final FamilyModel familyModel;
+  final UserModel userModel;
+  final FamilyCreateModel familyCreateModel;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +59,7 @@ class _FamilyExistWidget extends StatelessWidget {
                       return _FamilyListTile(
                         familyModel: familyModel,
                         index: index,
+                        userModel: userModel,
                       );
                     },
                     itemCount: familyModel.family?.members.length,
@@ -61,13 +71,85 @@ class _FamilyExistWidget extends StatelessWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: "btn5",
-        child: const Icon(Icons.person_add),
-        onPressed: () {
-          // showDialog(context: context, builder: (){});
-        },
-      ),
+      floatingActionButton: FloatButtonAddMemberToFamily(
+          familyCreateModel: familyCreateModel, familyModel: familyModel),
+    );
+  }
+}
+
+class FloatButtonAddMemberToFamily extends StatelessWidget {
+  const FloatButtonAddMemberToFamily({
+    super.key,
+    required this.familyCreateModel,
+    required this.familyModel,
+  });
+
+  final FamilyCreateModel familyCreateModel;
+  final FamilyModel familyModel;
+
+  @override
+  Widget build(BuildContext context) {
+    final idMemberController = TextEditingController();
+    final typeIdForMemberController = TextEditingController();
+    return FloatingActionButton(
+      heroTag: "btn5",
+      child: const Icon(Icons.person_add),
+      onPressed: () {
+        print('float button addMemberToFamily');
+        showDialog(
+          context: context,
+          builder: (context) {
+            return SingleChildScrollView(
+              child: AlertDialog(
+                title: Text('Добавить члена семьи'),
+                content: SizedBox(
+                  // height: 170,
+                  child: Column(
+                    children: [
+                      _ErrorMessageWidget(),
+                      TextField(
+                        controller: idMemberController,
+                        decoration: const InputDecoration(
+                          labelText: 'ID члена семьи',
+                          border: OutlineInputBorder(),
+                        ),
+                        onChanged: (text) {},
+                      ),
+                      const SizedBox(height: 22),
+                      _TypeIdForMembersMenuWidget(
+                        modelFamily: familyModel,
+                        modelCreateFamily: familyCreateModel,
+                        typeIdForMemberController: typeIdForMemberController,
+                      ),
+                    ],
+                  ),
+                ),
+                actions: [
+                  TextButton(
+                    child: const Text('Отменить'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      // TODO: контроллеры очистить
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('ОК'),
+                    onPressed: () {
+                      // modelCreateFamily.addFamilyMember(context);
+                      familyModel.addFamilyMember(
+                        context,
+                        idMemberController.text,
+                        typeIdForMemberController.text,
+                      );
+                      // TODO: контроллеры очистить
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }
@@ -77,9 +159,11 @@ class _FamilyListTile extends StatelessWidget {
     super.key,
     required this.familyModel,
     required this.index,
+    required this.userModel,
   });
 
   final FamilyModel familyModel;
+  final UserModel userModel;
   final int index;
 
   @override
@@ -116,6 +200,21 @@ class _FamilyListTile extends StatelessWidget {
                   ),
                 ),
                 actions: [
+                  (familyModel.isHost(userModel.id) &&
+                          familyModel.members![index].id != userModel.id)
+                      ? ElevatedButton(
+                          onPressed: () {
+                            int id = familyModel.members![index].id!;
+                            String typeStr = familyModel.getType(index)!;
+                            familyModel.deleteFamilyMember(
+                              context,
+                              id,
+                              typeStr,
+                            );
+                          },
+                          child: const Text('Удалить из семьи'),
+                        )
+                      : SizedBox.shrink(),
                   ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
                       child: const Text("Выход"))
@@ -154,7 +253,7 @@ class _ErrorMessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // final errorMessage =
     //     NotifierProvider.watch<SignUpModel>(context)?.errorMessage;
-    final errorMessage = context.watch<FamilyCreateModel>().errorMessage;
+    final errorMessage = context.watch<FamilyModel>().errorMessage;
     if (errorMessage == null) return const SizedBox.shrink();
     return Text(
       errorMessage,
@@ -162,71 +261,6 @@ class _ErrorMessageWidget extends StatelessWidget {
         color: Colors.red,
         fontSize: 14,
       ),
-    );
-  }
-}
-
-class _AlertDialogAddFamilyMemberWidget extends StatelessWidget {
-  FamilyModel modelFamily;
-  FamilyCreateModel modelCreateFamily;
-  _AlertDialogAddFamilyMemberWidget({
-    super.key,
-    required this.modelCreateFamily,
-    required this.modelFamily,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final idMemberController = TextEditingController();
-    final typeIdForMemberController = TextEditingController();
-    return ElevatedButton(
-      onPressed: () {
-        showDialog(
-            context: context,
-            builder: (context) {
-              return SingleChildScrollView(
-                  child: AlertDialog(
-                title: Text('Добавить члена семьи'),
-                content: SizedBox(
-                  // height: 170,
-                  child: Column(
-                    children: [
-                      _ErrorMessageWidget(),
-                      TextField(
-                        controller: idMemberController,
-                        decoration: const InputDecoration(
-                          labelText: 'ID члена семьи',
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (text) {},
-                      ),
-                      const SizedBox(height: 22),
-                      _TypeIdForMembersMenuWidget(
-                        modelFamily: modelFamily,
-                        modelCreateFamily: modelCreateFamily,
-                        typeIdForMemberController: typeIdForMemberController,
-                      ),
-                    ],
-                  ),
-                ),
-                actions: [
-                  TextButton(
-                    child: const Text('Отменить'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  TextButton(
-                    child: const Text('ОК'),
-                    onPressed: () {
-                      // modelCreateFamily.addFamilyMember(context);
-                    },
-                  ),
-                ],
-              ));
-            });
-      },
-      child: const Icon(Icons.person_add_alt),
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:all_for_moms_frontend/utils/family_model.dart';
-import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
-import 'package:all_for_moms_frontend/utils/user_model.dart';
+
 import 'package:all_for_moms_frontend/widgets/task/task_form/task_create_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class TaskFormWidget extends StatelessWidget {
       ),
       body: !familyModel.familyIsExist
           ? const Center(
-              child: Text('Сначала присоединись к семье'),
+              child: Text('Сначала присоединитесь к семье'),
             )
           : Center(
               child: Column(
@@ -100,7 +99,7 @@ class TaskFormWidget extends StatelessWidget {
       lastDate: DateTime(2100),
     );
     if (_picker != null) {
-      model?.endDateController.text = _picker.toString().split(" ")[0];
+      model.endDateController.text = _picker.toString().split(" ")[0];
     }
   }
 }

@@ -62,4 +62,17 @@ class FamilyCreateModel extends ChangeNotifier {
   void clearFileds() {
     idMemberController.clear();
   }
+
+  String returnTypeStringById(int id) {
+    switch (id) {
+      case 2:
+        return 'Мама';
+      case 3:
+        return 'Папа';
+      case 4:
+        return 'Брат';
+      default:
+        return 'Нет роли';
+    }
+  }
 }

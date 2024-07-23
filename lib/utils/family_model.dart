@@ -1,6 +1,7 @@
 import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
 import 'package:all_for_moms_frontend/domain/entity/family_member.dart';
 import 'package:all_for_moms_frontend/domain/entity/family_response.dart';
+import 'package:all_for_moms_frontend/domain/entity/update_family_request.dart';
 import 'package:all_for_moms_frontend/domain/entity/user.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +15,10 @@ class FamilyModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   FamilyResponse? _family;
   bool familyIsExist = false;
+  // final typeIdForMembertoFamilyController = TextEditingController();
+  // final idMemberToFamilyController = TextEditingController();
+  String? _errorMessage = null;
+  String? get errorMessage => _errorMessage;
 
   FamilyResponse? get family => _family;
 
@@ -113,27 +118,104 @@ class FamilyModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void addFamilyMember(
-  //   BuildContext context,
-  //   String idMemberText,
-  // ) {
-  //   final int userId;
+  int _returnTypeId(String str) {
+    switch (str) {
+      case 'MOTHER' || 'Мама':
+        return 2;
+      case 'FATHER' || 'Папа':
+        return 3;
+      case 'BROTHER' || 'Брат':
+        return 4;
+      default:
+        return 1;
+    }
+  }
 
-  //   try {
-  //     userId = int.parse(idMemberController.text);
-  //   } catch (e) {
-  //     _errorMessage = 'Введите число';
-  //     notifyListeners();
-  //     return;
+  // FamilyUpdateRequest createUpdateFamilyRequest() {
+  //   List<FamilyMember> members = [];
+  //   List<FamilyMember> hosts = [];
+
+  //   for (User u in _family!.members) {
+  //     FamilyMember member =
+  //         FamilyMember(userId: u.id!, typeId: _returnTypeId(u.type!.type));
+  //     members.add(member);
   //   }
 
-  //   final typeId = returnTypeId(typeIdForMemberController.text);
+  //   for (User u in _family!.hosts) {
+  //     FamilyMember member =
+  //         FamilyMember(userId: u.id!, typeId: _returnTypeId(u.type!.type));
+  //     hosts.add(member);
+  //   }
 
-  //   FamilyMember member = FamilyMember(userId: userId, typeId: typeId);
-  //   members.add(member);
-  //   clearFileds();
-  //   _errorMessage = null;
-  //   notifyListeners();
-  //   Navigator.of(context).pop();
+  //   FamilyUpdateRequest familyMembers =
+  //       FamilyUpdateRequest(hosts: hosts, members: members);
+  //   return familyMembers;
   // }
+
+  Future<void> addFamilyMember(
+    BuildContext context,
+    String idMemberText,
+    String typeIdForMemberText,
+  ) async {
+    final int userId;
+    final family;
+
+    try {
+      userId = int.parse(idMemberText);
+    } catch (e) {
+      _errorMessage = 'Введите число';
+      notifyListeners();
+      return;
+    }
+
+    final typeId = _returnTypeId(typeIdForMemberText);
+
+    FamilyMember member = FamilyMember(userId: userId, typeId: typeId);
+
+    FamilyUpdateRequest familyMembers =
+        FamilyUpdateRequest(hosts: [], members: [member]);
+
+    try {
+      family = await _apiClient.addMemberOrHostToFamily(family: familyMembers);
+      setFamily(family);
+    } catch (e) {
+      print(e.toString());
+    }
+
+    _errorMessage = null;
+    notifyListeners();
+    Navigator.of(context).pop();
+  }
+
+  bool isHost(int index) {
+    for (User u in _family!.hosts) {
+      if (u.id == index) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<void> deleteFamilyMember(
+    BuildContext context,
+    int userId,
+    String typeIdForMemberText,
+  ) async {
+    FamilyResponse response;
+    FamilyUpdateRequest family;
+    final typeId = _returnTypeId(typeIdForMemberText);
+
+    FamilyMember member = FamilyMember(userId: userId, typeId: typeId);
+    family = FamilyUpdateRequest(hosts: [], members: [member]);
+    try {
+      response = await _apiClient.deleteMemberOrHostToFamily(family: family);
+      setFamily(response);
+    } catch (e) {
+      print(e.toString());
+    }
+
+    _errorMessage = null;
+    notifyListeners();
+    Navigator.of(context).pop();
+  }
 }

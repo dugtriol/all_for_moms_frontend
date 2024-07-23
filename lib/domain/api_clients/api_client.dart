@@ -5,6 +5,7 @@ import 'package:all_for_moms_frontend/domain/entity/family_create.dart';
 import 'package:all_for_moms_frontend/domain/entity/family_response.dart';
 import 'package:all_for_moms_frontend/domain/entity/task_request.dart';
 import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
+import 'package:all_for_moms_frontend/domain/entity/update_family_request.dart';
 import 'package:all_for_moms_frontend/domain/entity/user.dart';
 import 'package:dio/dio.dart';
 
@@ -109,10 +110,6 @@ class ApiClient {
       print(e);
     }
     final url = _makeUri('/family/create-family');
-    // final parameters = <String, dynamic>{
-    //   'members_id': familyOld.membersId,
-    //   'type_id_for_host': familyOld.typeIdForHost,
-    // };
     print(familyOld.toJson());
     final response = await client.post(url.toString(),
         options: Options(headers: {
@@ -259,6 +256,52 @@ class ApiClient {
     );
     int id = response.data['id'];
     return id;
+  }
+
+  Future<FamilyResponse> addMemberOrHostToFamily(
+      {required FamilyUpdateRequest family}) async {
+    print('AddMemberOrHostToFamily');
+    String token = "";
+    try {
+      token = await tokenModel.getToken();
+      // print('Token: $token');
+    } catch (e) {
+      print(e);
+    }
+    final url = _makeUri('/family/update-family');
+    print(family.toJson());
+    final response = await client.put(url.toString(),
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        }),
+        data: family.toJson());
+    print(response.data);
+    FamilyResponse familyResp = FamilyResponse.fromJson(response.data);
+    return familyResp;
+  }
+
+  Future<FamilyResponse> deleteMemberOrHostToFamily(
+      {required FamilyUpdateRequest family}) async {
+    print('DeleteMemberOrHostToFamily');
+    String token = "";
+    try {
+      token = await tokenModel.getToken();
+      // print('Token: $token');
+    } catch (e) {
+      print(e);
+    }
+    final url = _makeUri('/family/delete-host');
+    print(family.toJson());
+    final response = await client.delete(url.toString(),
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: "Bearer $token",
+        }),
+        data: family.toJson());
+    print(response.data);
+    FamilyResponse familyResp = FamilyResponse.fromJson(response.data);
+    return familyResp;
   }
 }
 

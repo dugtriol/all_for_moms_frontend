@@ -55,7 +55,7 @@ class TaskModel extends ChangeNotifier {
   }
 
   Future<void> updateTasksSetter({required int userId}) async {
-    print('updateTasksSetter');
+    // print('updateTasksSetter');
     final List<TaskResponse> tasks =
         await _apiClient.getTasksByTaskSetterId(userId: userId);
     // print(tasks.length);
@@ -63,7 +63,7 @@ class TaskModel extends ChangeNotifier {
   }
 
   Future<void> updateTasksGetter({required int userId}) async {
-    print('updateTasksGetter');
+    // print('updateTasksGetter');
     final List<TaskResponse> tasks =
         await _apiClient.getTasksByTaskGetterId(userId: userId);
     // print(tasks.length);

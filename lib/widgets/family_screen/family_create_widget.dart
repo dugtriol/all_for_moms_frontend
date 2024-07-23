@@ -32,7 +32,7 @@ class FamilyCreateWidget extends StatelessWidget {
                       modelCreateFamily: modelCreateFamily,
                       modelFamily: modelFamily,
                     ),
-                    SizedBox(width: 50),
+                    const SizedBox(width: 50),
                     ElevatedButton(
                       onPressed: () async {
                         await modelCreateFamily.createFamily(context);
@@ -44,7 +44,7 @@ class FamilyCreateWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 const Divider(),
-                _ListAddFamilyMemberWidget(),
+                const _ListAddFamilyMemberWidget(),
               ],
             ),
           ),
@@ -53,9 +53,9 @@ class FamilyCreateWidget extends StatelessWidget {
 }
 
 class _AlertDialogAddFamilyMemberWidget extends StatelessWidget {
-  FamilyModel modelFamily;
-  FamilyCreateModel modelCreateFamily;
-  _AlertDialogAddFamilyMemberWidget({
+  final FamilyModel modelFamily;
+  final FamilyCreateModel modelCreateFamily;
+  const _AlertDialogAddFamilyMemberWidget({
     super.key,
     required this.modelCreateFamily,
     required this.modelFamily,
@@ -70,12 +70,12 @@ class _AlertDialogAddFamilyMemberWidget extends StatelessWidget {
             builder: (context) {
               return SingleChildScrollView(
                   child: AlertDialog(
-                title: Text('Добавить члена семьи'),
+                title: const Text('Добавить члена семьи'),
                 content: SizedBox(
                   // height: 170,
                   child: Column(
                     children: [
-                      _ErrorMessageWidget(),
+                      const _ErrorMessageWidget(),
                       TextField(
                         controller: modelCreateFamily.idMemberController,
                         decoration: const InputDecoration(
@@ -134,7 +134,7 @@ class _ErrorMessageWidget extends StatelessWidget {
 }
 
 class _ListAddFamilyMemberWidget extends StatelessWidget {
-  _ListAddFamilyMemberWidget({
+  const _ListAddFamilyMemberWidget({
     super.key,
   });
 
@@ -143,12 +143,13 @@ class _ListAddFamilyMemberWidget extends StatelessWidget {
     final modelCreateFamily = context.watch<FamilyCreateModel>();
     final listMembers = modelCreateFamily.familyMembers;
     return listMembers.isEmpty
-        ? Text('Нет членов семьи.\n     Добавьте их!')
+        ? const Text('Нет членов семьи.\n     Добавьте их!')
         : ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text("${listMembers[index].userId}"),
-                subtitle: Text('${listMembers[index].typeId}'),
+                title: Text("ID ${listMembers[index].userId}"),
+                subtitle: Text(modelCreateFamily
+                    .returnTypeStringById(listMembers[index].typeId)),
               );
             },
             separatorBuilder: (BuildContext context, int index) {
@@ -161,9 +162,9 @@ class _ListAddFamilyMemberWidget extends StatelessWidget {
 }
 
 class _TypeIdForMembersMenuWidget extends StatelessWidget {
-  FamilyModel modelFamily;
-  FamilyCreateModel modelCreateFamily;
-  _TypeIdForMembersMenuWidget({
+  final FamilyModel modelFamily;
+  final FamilyCreateModel modelCreateFamily;
+  const _TypeIdForMembersMenuWidget({
     super.key,
     required this.modelFamily,
     required this.modelCreateFamily,
@@ -193,9 +194,9 @@ class _TypeIdForMembersMenuWidget extends StatelessWidget {
 }
 
 class _TypeIdForHostMenuWidget extends StatelessWidget {
-  FamilyModel modelFamily;
-  FamilyCreateModel modelCreateFamily;
-  _TypeIdForHostMenuWidget({
+  final FamilyModel modelFamily;
+  final FamilyCreateModel modelCreateFamily;
+  const _TypeIdForHostMenuWidget({
     super.key,
     required this.modelFamily,
     required this.modelCreateFamily,
