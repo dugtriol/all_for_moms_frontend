@@ -1,3 +1,4 @@
+import 'package:all_for_moms_frontend/utils/build_text_field_widget.dart';
 import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/widgets/family_screen/family_create_model.dart';
 import 'package:all_for_moms_frontend/widgets/family_screen/family_create_widget.dart';
@@ -186,15 +187,15 @@ class _FamilyListTile extends StatelessWidget {
                   padding: EdgeInsets.all(2),
                   child: Column(
                     children: [
-                      _buildTextField('Идентификатор',
+                      buildTextField('Идентификатор',
                           familyModel.members![index].id.toString()),
-                      _buildTextField(
+                      buildTextField(
                           'Имя', familyModel.getName(index).toString()),
-                      _buildTextField('Электронная почта',
+                      buildTextField('Электронная почта',
                           familyModel.members![index].email),
-                      _buildTextField(
+                      buildTextField(
                           'В семье', familyModel.getType(index).toString()),
-                      _buildTextField(
+                      buildTextField(
                           'Дата рождения', familyModel.getDateOfBirth(index)),
                     ],
                   ),
@@ -222,26 +223,6 @@ class _FamilyListTile extends StatelessWidget {
               );
             });
       },
-    );
-  }
-
-  Widget _buildTextField(String labelText, String placeholder) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 25.0),
-      child: TextField(
-        readOnly: true,
-        // obscureText: isPasswordTextField ? showPassword : false,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            hintStyle: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            )),
-      ),
     );
   }
 }

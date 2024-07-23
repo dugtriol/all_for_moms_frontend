@@ -1,8 +1,12 @@
+import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
 import 'package:all_for_moms_frontend/domain/entity/event.dart';
 import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
+import 'package:all_for_moms_frontend/utils/alert_dialog_task_info_widget.dart';
+import 'package:all_for_moms_frontend/utils/build_text_field_widget.dart';
 import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_model.dart';
+import 'package:all_for_moms_frontend/widgets/task/task_screen/task_list_row_widget.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,11 +22,11 @@ class CalendarWidget extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Календарь'),
       ),
-      body: SafeArea(
+      body: const SafeArea(
         child: Column(
           children: [
             TableCalendarWidget(),
-            const SizedBox(height: 20.0),
+            SizedBox(height: 20.0),
             Expanded(
               child: ValueListenableBuilderWidgetCalendar(),
             )
@@ -65,7 +69,7 @@ class CalendarWidget extends StatelessWidget {
 }
 
 class TableCalendarWidget extends StatelessWidget {
-  TableCalendarWidget({
+  const TableCalendarWidget({
     super.key,
   });
 
@@ -96,7 +100,7 @@ class TableCalendarWidget extends StatelessWidget {
 }
 
 class ValueListenableBuilderWidgetCalendar extends StatelessWidget {
-  ValueListenableBuilderWidgetCalendar({
+  const ValueListenableBuilderWidgetCalendar({
     super.key,
   });
 
@@ -109,6 +113,7 @@ class ValueListenableBuilderWidgetCalendar extends StatelessWidget {
     return ValueListenableBuilder<List<TaskResponse>>(
       valueListenable: modelCalendar.selectedEvents,
       builder: (context, value, _) {
+        final _apiClient = ApiClient();
         return ListView.builder(
           itemCount: value.length,
           itemBuilder: (context, index) {
@@ -126,12 +131,23 @@ class ValueListenableBuilderWidgetCalendar extends StatelessWidget {
                     : Colors.greenAccent[100],
               ),
               child: ListTile(
-                onTap: () => print(""),
+                onTap: () {
+                  alertDialogTaskInfoWidget(
+                    context,
+                    familyModel,
+                    _apiClient,
+                    value[index],
+                    index,
+                    value[index].taskGetter == userModel.id,
+                    modelTask,
+                  );
+                },
                 title: Text(
                   '${value[index].title}\n${returnGetterString(
                     value[index].taskGetter,
                     userModel.id,
                     familyModel,
+                    value[index].isCompleted,
                   )}',
                 ),
               ),
@@ -143,10 +159,10 @@ class ValueListenableBuilderWidgetCalendar extends StatelessWidget {
   }
 
   String returnGetterString(
-      int getterIndex, int userIndex, FamilyModel familyModel) {
+      int getterIndex, int userIndex, FamilyModel familyModel, bool isDone) {
     if (getterIndex == userIndex) {
-      return 'Cобственное задание';
+      return 'Cобственное задание ${isDone ? ' - Выполнено' : ''}';
     }
-    return 'Выполняет:  ${familyModel.getNameById(getterIndex)}';
+    return 'Выполняет:  ${familyModel.getNameById(getterIndex)}${isDone ? ' - Выполнено' : ''}';
   }
 }
