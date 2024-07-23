@@ -1,4 +1,6 @@
+import 'package:all_for_moms_frontend/domain/auth/auth_token.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
+import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +46,20 @@ class ProfileScreenWidget extends StatelessWidget {
               buildTextField('Имя', modelUser.username, false),
               buildTextField('Электронная почта', modelUser.email, false),
               buildTextField('Дата рождения', modelUser.dateOfBirth, false),
+              SizedBox(height: 10),
+              TextButton(
+                  onPressed: () {
+                    final tokenModel = Token();
+                    try {
+                      tokenModel.deleteToken();
+                      // print('Token: $token');
+                    } catch (e) {
+                      print(e);
+                    }
+                    Navigator.of(context)
+                        .pushReplacementNamed(MainNavigationRoutes.auth);
+                  },
+                  child: const Text('Выйти из аккаунта'))
             ],
           ),
         ),
