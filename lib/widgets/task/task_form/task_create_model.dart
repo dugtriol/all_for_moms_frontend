@@ -1,6 +1,5 @@
 import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
 import 'package:all_for_moms_frontend/domain/entity/task_request.dart';
-import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

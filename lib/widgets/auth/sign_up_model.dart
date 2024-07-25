@@ -1,8 +1,5 @@
 import 'dart:async';
-
-import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
-
 import '../../domain/api_clients/api_client.dart';
 
 class SignUpModel extends ChangeNotifier {
@@ -21,7 +18,6 @@ class SignUpModel extends ChangeNotifier {
   bool get isSignUpProgress => _isSignUpProgress;
 
   Future<void> signup(BuildContext context) async {
-    print('signup');
     final login = loginController.text;
     final password = passwordController.text;
     final name = nameController.text;

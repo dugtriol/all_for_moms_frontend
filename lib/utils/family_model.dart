@@ -15,8 +15,6 @@ class FamilyModel extends ChangeNotifier {
   final _apiClient = ApiClient();
   FamilyResponse? _family;
   bool familyIsExist = false;
-  // final typeIdForMembertoFamilyController = TextEditingController();
-  // final idMemberToFamilyController = TextEditingController();
   String? _errorMessage = null;
   String? get errorMessage => _errorMessage;
 
@@ -93,7 +91,7 @@ class FamilyModel extends ChangeNotifier {
   }
 
   Future<void> updateFamily() async {
-    // print('updateFamily');
+
     final FamilyResponse family = await _apiClient.getFamilyByUserId();
     setFamily(family);
     notifyListeners();
@@ -103,7 +101,6 @@ class FamilyModel extends ChangeNotifier {
     if (family != null ||
         family.hosts.isNotEmpty ||
         family.members.isNotEmpty) {
-      // print('isExist');
       familyIsExist = true;
       _family = family;
     } else {

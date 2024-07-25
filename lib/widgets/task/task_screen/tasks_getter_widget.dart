@@ -1,17 +1,15 @@
-import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
 import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_list_row_widget.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
-import 'package:all_for_moms_frontend/widgets/task/task_form/task_form_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class TaskListGetterWidget extends StatelessWidget {
   final UserModel userModel;
   final TaskModel taskModel;
   final FamilyModel familyModel;
-  TaskListGetterWidget({
+  const TaskListGetterWidget({
     super.key,
     required this.familyModel,
     required this.taskModel,
@@ -23,7 +21,6 @@ class TaskListGetterWidget extends StatelessWidget {
       taskModel.updateTasksGetter(userId: userModel.id);
     }
 
-//  && taskModel.isListGetterNotEmpty()
     return (familyModel.familyIsExist)
         ? IfTasksGetterExistWidget(taskModel: taskModel)
         : IfTasksGetterNotExist(
@@ -39,23 +36,46 @@ class IfTasksGetterExistWidget extends StatelessWidget {
   });
 
   final TaskModel taskModel;
-
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ListView.separated(
-        itemBuilder: (BuildContext context, int index) {
-          return TaskListRowWidget(
-            task: taskModel.tasksGetter![index],
-            indexInList: index,
-            taskModel: taskModel,
-            isGetterWidget: true,
+      child: GroupedListView(
+        elements: taskModel.tasksGetter!,
+        groupBy: (element) => element.endDate.toString(),
+        groupComparator: (a, b) => a.compareTo(b),
+        useStickyGroupSeparators: true,
+        itemBuilder: (c, element) {
+          return Card(
+            child: TaskListRowWidget(
+              task: element,
+              taskModel: taskModel,
+              isGetterWidget: false,
+            ),
           );
         },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider(height: 1);
+        groupSeparatorBuilder: (String value) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            value,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+        ),
+        groupHeaderBuilder: (element) {
+          return SizedBox(
+            height: 40,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: Text(
+                taskModel.returnDateString(element.endDate!),
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          );
         },
-        itemCount: taskModel.tasksGetter?.length ?? 0,
       ),
     );
   }

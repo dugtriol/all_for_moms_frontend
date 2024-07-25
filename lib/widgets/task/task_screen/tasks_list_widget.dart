@@ -13,7 +13,7 @@ class TasksListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userModel = context.read<UserModel>();
-    final taskModel = context.read<TaskModel>();
+    final taskModel = context.watch<TaskModel>();
     final familyModel = context.read<FamilyModel>();
     return DefaultTabController(
       initialIndex: 1,
@@ -50,7 +50,6 @@ class TasksListWidget extends StatelessWidget {
           heroTag: "btn3",
           child: const Icon(Icons.add_task),
           onPressed: () {
-            //Navigator.pushNamed(context, MainNavigationRoutes.taskForm);
             Navigator.of(context).push(MaterialPageRoute<void>(
                 builder: (context) => const TaskFormWidget()));
           },

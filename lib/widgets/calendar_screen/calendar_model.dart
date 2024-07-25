@@ -6,12 +6,9 @@ import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 class CalendarModel extends ChangeNotifier {
   final TaskModel taskModel;
   CalendarFormat calendarFormat = CalendarFormat.month;
-  // CalendarFormat get calendarFormat => _calendarFormat;
   DateTime focusedDay = DateTime.now();
 
   DateTime? selectedDay;
-  // DateTime? get selectedDay => _selectedDay;
-
   Map<DateTime, List<TaskResponse>> events = {};
 
   late ValueNotifier<List<TaskResponse>> _selectedEvents;
@@ -39,8 +36,6 @@ class CalendarModel extends ChangeNotifier {
   }
 
   void _updateEventsFromTaskModel() {
-    print('_updateEventsFromTaskModel');
-    // print(taskModel.tasksSetter!.length.toString());
     if (taskModel.tasksSetter != null) {
       events.clear();
       for (var task in taskModel.tasksSetter!) {
@@ -58,7 +53,7 @@ class CalendarModel extends ChangeNotifier {
     }
     if (taskModel.tasksGetter != null) {
       for (var task in taskModel.tasksGetter!) {
-        if (!isSameTask(task)) {
+        if (!taskModel.isSameTask(task)) {
           if (task.endDate != null) {
             final date = DateTime(
               task.endDate!.year,
@@ -76,15 +71,6 @@ class CalendarModel extends ChangeNotifier {
       }
     }
     notifyListeners();
-  }
-
-  bool isSameTask(TaskResponse task) {
-    for (var u in taskModel.tasksGetter!) {
-      if (u == task) {
-        return true;
-      }
-    }
-    return false;
   }
 
   void changeCalendarFormat(CalendarFormat format) {

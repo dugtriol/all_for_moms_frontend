@@ -3,7 +3,6 @@ import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/widgets/family_screen/family_create_model.dart';
 import 'package:all_for_moms_frontend/widgets/family_screen/family_create_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/user_model.dart';
@@ -16,8 +15,6 @@ class FamilyListWidget extends StatelessWidget {
     final userModel = context.read<UserModel>();
     final familyModel = context.watch<FamilyModel>();
     final familyCreateModel = context.read<FamilyCreateModel>();
-    // if (familyModel.familyIsExist) {}
-    //familyModel.updateFamily();
     return familyModel.familyIsExist
         ? _FamilyExistWidget(
             familyModel: familyModel,
@@ -96,7 +93,6 @@ class FloatButtonAddMemberToFamily extends StatelessWidget {
       heroTag: "btn5",
       child: const Icon(Icons.person_add),
       onPressed: () {
-        print('float button addMemberToFamily');
         showDialog(
           context: context,
           builder: (context) {
@@ -184,7 +180,7 @@ class _FamilyListTile extends StatelessWidget {
                 title: const Text('Член семьи'),
                 scrollable: true,
                 content: Padding(
-                  padding: EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(2),
                   child: Column(
                     children: [
                       buildTextField('Идентификатор',
@@ -215,7 +211,7 @@ class _FamilyListTile extends StatelessWidget {
                           },
                           child: const Text('Удалить из семьи'),
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   ElevatedButton(
                       onPressed: () => Navigator.of(context).pop(),
                       child: const Text("Выход"))
@@ -232,8 +228,6 @@ class _ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final errorMessage =
-    //     NotifierProvider.watch<SignUpModel>(context)?.errorMessage;
     final errorMessage = context.watch<FamilyModel>().errorMessage;
     if (errorMessage == null) return const SizedBox.shrink();
     return Text(
@@ -266,8 +260,6 @@ class _TypeIdForMembersMenuWidget extends StatelessWidget {
         ? DropdownMenu<String>(
             label: const Text("Какая роль в семье?"),
             controller: typeIdForMemberController,
-            // width: 100,
-            // initialSelection: list.first,
             onSelected: (String? value) {
               dropdownValue = value!;
             },
@@ -321,25 +313,15 @@ class _FamilyIsNotExistWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              // heroTag: "btn4",
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute<void>(
-                    builder: (context) => FamilyCreateWidget()));
+                    builder: (context) => const FamilyCreateWidget()));
               },
-              child: Text("Создать семью"),
+              child: const Text("Создать семью"),
             ),
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   heroTag: "btn4",
-      //   onPressed: () {
-      //     Navigator.of(context).push(MaterialPageRoute<void>(
-      //         builder: (context) => FamilyCreateWidget()));
-      //   },
-      //   icon: Icon(Icons.add),
-      //   label: Text("Создать семью"),
-      // ),
     );
   }
 }

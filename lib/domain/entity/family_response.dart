@@ -1,4 +1,3 @@
-import 'package:all_for_moms_frontend/domain/entity/family_member.dart';
 import 'package:all_for_moms_frontend/domain/entity/user.dart';
 import 'package:json_annotation/json_annotation.dart';
 

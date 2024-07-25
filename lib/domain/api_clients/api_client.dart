@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:all_for_moms_frontend/domain/entity/family_create.dart';
 import 'package:all_for_moms_frontend/domain/entity/family_response.dart';
 import 'package:all_for_moms_frontend/domain/entity/task_request.dart';
@@ -29,7 +28,6 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -46,7 +44,6 @@ class ApiClient {
   }
 
   Future<User> getUserById({required int id}) async {
-    print("getUserIdByName");
     final Map<String, dynamic> datajson = {'id': id};
     final url = _makeUri('/user');
     final response = await client.post(
@@ -105,19 +102,16 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
     final url = _makeUri('/family/create-family');
-    print(familyOld.toJson());
     final response = await client.post(url.toString(),
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.authorizationHeader: "Bearer $token",
         }),
         data: familyOld.toJson());
-    print(response.data);
     FamilyResponse family = FamilyResponse.fromJson(response.data);
     return family;
   }
@@ -126,7 +120,6 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -145,7 +138,6 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -163,11 +155,9 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
-    print(taskId);
     final url = _makeUri('/task/complete/$taskId');
     final response = await client.put(url.toString(),
         options: Options(headers: {
@@ -181,12 +171,10 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
 
-    print('getTasksByTaskSetterId');
     final url = _makeUri('/task/setter/$userId');
 
     final response = await client.get(url.toString(),
@@ -205,12 +193,10 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
 
-    print('getTasksByTaskGetterId');
     final url = _makeUri('/task/getter/$userId');
 
     final response = await client.get(url.toString(),
@@ -228,7 +214,6 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -244,7 +229,6 @@ class ApiClient {
   }
 
   Future<int> getUserIdByName({required String name}) async {
-    print("getUserIdByName");
     final Map<String, dynamic> datajson = {'username': name};
     final url = _makeUri('/user');
     final response = await client.post(
@@ -260,23 +244,19 @@ class ApiClient {
 
   Future<FamilyResponse> addMemberOrHostToFamily(
       {required FamilyUpdateRequest family}) async {
-    print('AddMemberOrHostToFamily');
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
     final url = _makeUri('/family/update-family');
-    print(family.toJson());
     final response = await client.put(url.toString(),
         options: Options(headers: {
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.authorizationHeader: "Bearer $token",
         }),
         data: family.toJson());
-    print(response.data);
     FamilyResponse familyResp = FamilyResponse.fromJson(response.data);
     return familyResp;
   }
@@ -287,7 +267,6 @@ class ApiClient {
     String token = "";
     try {
       token = await tokenModel.getToken();
-      // print('Token: $token');
     } catch (e) {
       print(e);
     }
@@ -299,13 +278,11 @@ class ApiClient {
           HttpHeaders.authorizationHeader: "Bearer $token",
         }),
         data: family.toJson());
-    print(response.data);
     FamilyResponse familyResp = FamilyResponse.fromJson(response.data);
     return familyResp;
   }
 
   Future<void> deleteUser({required int id}) async {
-    print('deleteUser');
     final url = _makeUri('/user/delete-user');
     final response = await client.delete(
       url.toString(),

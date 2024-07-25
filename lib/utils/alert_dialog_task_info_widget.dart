@@ -10,7 +10,6 @@ Future<dynamic> alertDialogTaskInfoWidget(
   FamilyModel familyModel,
   ApiClient _apiClient,
   TaskResponse task,
-  int indexInList,
   bool isGetterWidget,
   TaskModel taskModel,
 ) {

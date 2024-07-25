@@ -1,5 +1,4 @@
 import 'package:all_for_moms_frontend/app/all_for_moms_app_model.dart';
-import 'package:all_for_moms_frontend/domain/auth/auth_token.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
 

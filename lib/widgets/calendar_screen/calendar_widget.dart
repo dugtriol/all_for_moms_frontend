@@ -1,12 +1,9 @@
 import 'package:all_for_moms_frontend/domain/api_clients/api_client.dart';
-import 'package:all_for_moms_frontend/domain/entity/event.dart';
 import 'package:all_for_moms_frontend/domain/entity/task_response.dart';
 import 'package:all_for_moms_frontend/utils/alert_dialog_task_info_widget.dart';
-import 'package:all_for_moms_frontend/utils/build_text_field_widget.dart';
 import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/calendar_screen/calendar_model.dart';
-import 'package:all_for_moms_frontend/widgets/task/task_screen/task_list_row_widget.dart';
 import 'package:all_for_moms_frontend/widgets/task/task_screen/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +14,6 @@ class CalendarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final modelCalendar = context.watch<CalendarModel>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Календарь'),
@@ -33,37 +29,6 @@ class CalendarWidget extends StatelessWidget {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   heroTag: "btn1",
-      //   child: const Icon(Icons.add),
-      //   onPressed: () {
-      //     showDialog(
-      //         context: context,
-      //         builder: (context) {
-      //           return AlertDialog(
-      //             scrollable: true,
-      //             title: const Text("Описание"),
-      //             content: Padding(
-      //               padding: const EdgeInsets.all(8),
-      //               child: TextField(
-      //                 controller: modelCalendar.eventController,
-      //               ),
-      //             ),
-      //             actions: [
-      //               ElevatedButton(
-      //                 onPressed: () {
-      //                   // modelCalendar.AddEventButton(
-      //                   //   context,
-
-      //                   // );
-      //                 },
-      //                 child: const Text("Сохранить"),
-      //               ),
-      //             ],
-      //           );
-      //         });
-      //   },
-      // )
     );
   }
 }
@@ -137,13 +102,13 @@ class ValueListenableBuilderWidgetCalendar extends StatelessWidget {
                     familyModel,
                     _apiClient,
                     value[index],
-                    index,
+                    // index,
                     value[index].taskGetter == userModel.id,
                     modelTask,
                   );
                 },
                 title: Text(
-                  '${value[index].title}\n${returnGetterString(
+                  '${value[index].title}\n${modelTask.returnGetterString(
                     value[index].taskGetter,
                     userModel.id,
                     familyModel,
@@ -156,13 +121,5 @@ class ValueListenableBuilderWidgetCalendar extends StatelessWidget {
         );
       },
     );
-  }
-
-  String returnGetterString(
-      int getterIndex, int userIndex, FamilyModel familyModel, bool isDone) {
-    if (getterIndex == userIndex) {
-      return 'Cобственное задание ${isDone ? ' - Выполнено' : ''}';
-    }
-    return 'Выполняет:  ${familyModel.getNameById(getterIndex)}${isDone ? ' - Выполнено' : ''}';
   }
 }

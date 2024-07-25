@@ -1,5 +1,4 @@
 import 'package:all_for_moms_frontend/utils/family_model.dart';
-
 import 'package:all_for_moms_frontend/widgets/task/task_form/task_create_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +11,6 @@ class TaskFormWidget extends StatelessWidget {
     final modelCreateTask = context.watch<TaskCreateModel>();
     final familyModel = context.read<FamilyModel>();
 
-    print('AddTaskWidget');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Создать задание'),
@@ -37,7 +35,7 @@ class TaskFormWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 22),
-                  Container(
+                  SizedBox(
                     width: 300,
                     height: 100,
                     child: TextField(
@@ -71,9 +69,9 @@ class TaskFormWidget extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 32),
-                  recurrenceIntervalMenu(),
+                  const recurrenceIntervalMenu(),
                   const SizedBox(height: 32),
-                  getterNameMenu(),
+                  const getterNameMenu(),
                   const SizedBox(height: 32),
                   OutlinedButton(
                     onPressed: () {
@@ -90,8 +88,6 @@ class TaskFormWidget extends StatelessWidget {
   }
 
   Future<void> _selectEndDate(BuildContext context) async {
-    // final model = NotifierProvider.read<SignUpModel>(context);
-    // final model = context.read<SignUpModel>();
     final model = context.read<TaskCreateModel>();
     DateTime? _picker = await showDatePicker(
       context: context,
@@ -105,7 +101,7 @@ class TaskFormWidget extends StatelessWidget {
 }
 
 class recurrenceIntervalMenu extends StatelessWidget {
-  recurrenceIntervalMenu({super.key});
+  const recurrenceIntervalMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +124,7 @@ class recurrenceIntervalMenu extends StatelessWidget {
 }
 
 class getterNameMenu extends StatelessWidget {
-  getterNameMenu({super.key});
+  const getterNameMenu({super.key});
 
   @override
   Widget build(BuildContext context) {

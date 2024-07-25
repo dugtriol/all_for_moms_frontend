@@ -22,10 +22,7 @@ class SignInModel extends ChangeNotifier {
 
   Future<void> auth(BuildContext context) async {
     final userModel = context.read<UserModel>();
-    // NotifierProvider.read<UserModel>(context);
-    //  NotifierProvider.read<FamilyModel>(context);
     final familyModel = context.read<FamilyModel>();
-    print('auth');
     final login = loginController.text;
     final password = passwordController.text;
 
@@ -56,15 +53,12 @@ class SignInModel extends ChangeNotifier {
     await tokenModel.saveToken(jwtToken);
 
     final user = await _apiClient.getCurrentUser();
-    print(user);
-    userModel?.setUser(await user);
+    userModel.setUser(await user);
 
     final isExist = await _apiClient.isExistFamily();
     if (isExist) {
       final family = await _apiClient.getFamilyByUserId();
-      print(family.id);
       familyModel.setFamily(family);
-      print(' model ${userModel?.user?.username}');
     } else {
       familyModel.familyIsExist = false;
     }
@@ -73,27 +67,3 @@ class SignInModel extends ChangeNotifier {
         .pushReplacementNamed(MainNavigationRoutes.mainScreen));
   }
 }
-
-// class AuthProvider extends InheritedNotifier {
-//   final AuthModel model;
-//   const AuthProvider({
-//     Key? key,
-//     required this.model,
-//     required Widget child,
-//   }) : super(
-//           key: key,
-//           notifier: model,
-//           child: child,
-//         );
-
-//   static AuthProvider? watch(BuildContext context) {
-//     return context.dependOnInheritedWidgetOfExactType<AuthProvider>();
-//   }
-
-//   static AuthProvider? read(BuildContext context) {
-//     final widget =
-//         context.getElementForInheritedWidgetOfExactType<AuthProvider>()?.widget;
-//     return widget is AuthProvider ? widget : null;
-//   }
-// }
-

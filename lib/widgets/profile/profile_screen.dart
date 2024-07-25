@@ -1,5 +1,4 @@
 import 'package:all_for_moms_frontend/domain/auth/auth_token.dart';
-import 'package:all_for_moms_frontend/utils/family_model.dart';
 import 'package:all_for_moms_frontend/utils/user_model.dart';
 import 'package:all_for_moms_frontend/widgets/navigation/main_navigation.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,6 @@ class ProfileScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final modelUser = context.read<UserModel>();
-    final modelFamily = context.read<FamilyModel>();
     return Scaffold(
       appBar: AppBar(title: const Text('Профиль')),
       body: Container(
@@ -54,7 +52,6 @@ class ProfileScreenWidget extends StatelessWidget {
                     final tokenModel = Token();
                     try {
                       tokenModel.deleteToken();
-                      // print('Token: $token');
                     } catch (e) {
                       print(e);
                     }
@@ -65,65 +62,6 @@ class ProfileScreenWidget extends StatelessWidget {
                     'Выйти из аккаунта',
                     style: TextStyle(fontSize: 16),
                   )),
-              // TextButton(
-              //   onPressed: () {
-              //     showDialog(
-              //         context: context,
-              //         builder: (context) {
-              //           return AlertDialog(
-              //             title: Text('Удалить аккаунт'),
-              //             scrollable: true,
-              //             content: Padding(
-              //                 padding: EdgeInsets.all(8),
-              //                 child: Column(
-              //                   children: [
-              //                     Text(
-              //                       'Вы уверены, что хотите удалить аккаунт?',
-              //                       style: TextStyle(fontSize: 16),
-              //                     )
-              //                   ],
-              //                 )),
-              //             actions: [
-              //               ElevatedButton(
-              //                 onPressed: () async {
-              //                   try {
-              //                     // await modelFamily.deleteFamilyMember(
-              //                     //   context,
-              //                     //   modelUser.id,
-              //                     //   modelFamily
-              //                     //       .returnTypeString(modelUser.type!),
-              //                     // );
-              //                     await modelUser.deleteUserById(modelUser.id);
-              //                     final tokenModel = Token();
-              //                     await tokenModel.deleteToken();
-              //                   } on Exception catch (e) {
-              //                     print(e.toString());
-              //                   }
-              //                   Navigator.of(context).pushReplacementNamed(
-              //                       MainNavigationRoutes.auth);
-              //                 },
-              //                 child: Text(
-              //                   'Удалить',
-              //                   style: TextStyle(
-              //                     color: Colors.red,
-              //                   ),
-              //                 ),
-              //               ),
-              //               TextButton(
-              //                   onPressed: () => Navigator.of(context).pop(),
-              //                   child: const Text("Отмена"))
-              //             ],
-              //           );
-              //         });
-              //   },
-              //   child: Text(
-              //     'Удалить аккаунт',
-              //     style: TextStyle(
-              //       color: Colors.red,
-              //       fontSize: 16,
-              //     ),
-              //   ),
-              // )
             ],
           ),
         ),
@@ -137,30 +75,26 @@ class ProfileScreenWidget extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
         readOnly: true,
-        // obscureText: isPasswordTextField ? showPassword : false,
         decoration: InputDecoration(
-            suffixIcon: isPasswordTextField
-                ? IconButton(
-                    onPressed: () {
-                      // setState(() {
-                      //   showPassword = !showPassword;
-                      // });
-                    },
-                    icon: Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.grey,
-                    ),
-                  )
-                : null,
-            contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            )),
+          suffixIcon: isPasswordTextField
+              ? IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.remove_red_eye,
+                    color: Colors.grey,
+                  ),
+                )
+              : null,
+          contentPadding: const EdgeInsets.only(bottom: 3),
+          labelText: labelText,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          hintText: placeholder,
+          hintStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
       ),
     );
   }
